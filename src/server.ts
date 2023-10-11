@@ -8,26 +8,32 @@ process.on('uncaughtException', error => {
   process.exit(1);
 });
 
-let server: Server;
-
 async function bootstrap() {
-  try {
-    logger.info('✅ Database connected successfully');
-    app.listen(config.port, () => {
-      logger.info(`🚀 Server running on port ${config.port}`);
-    });
-  } catch (error) {
-    errorLogger.error(`❌ Error while connecting to database: ${error}`);
-  }
+  const server: Server = app.listen(config.port, () => {
+    logger.info(`🚀 Server running on port ${config.port}`);
+  });
 
-  process.on('unhandledRejection', error => {
+  const exitHandler = () => {
     if (server) {
       server.close(() => {
-        errorLogger.error(`Error: ${error} ❌`);
-        process.exit(1);
+        logger.info('Server closed');
       });
-    } else {
-      process.exit(1);
+    }
+    process.exit(1);
+  };
+
+  const unexpectedErrorHandler = (error: unknown) => {
+    errorLogger.error(error);
+    exitHandler();
+  };
+
+  process.on('uncaughtException', unexpectedErrorHandler);
+  process.on('unhandledRejection', unexpectedErrorHandler);
+
+  process.on('SIGTERM', () => {
+    logger.info('SIGTERM received');
+    if (server) {
+      server.close();
     }
   });
 }
