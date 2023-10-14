@@ -11,9 +11,11 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use(globalErrorHandler);
 
 app.use('/api/v1', routes);
+
+// Global error handler
+app.use(globalErrorHandler);
 
 app.get('/', (req: Request, res: Response) => {
   res.status(httpStatus.OK).json({
