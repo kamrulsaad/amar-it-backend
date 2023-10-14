@@ -8,15 +8,14 @@ datasource db {
 }
 
 model User {
-  id          String       @id @default(uuid())
-  username    String       @unique
-  password    String
-  role        USER_ROLE
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  customers   Customer[]
-  admins      Admin[]
-  superAdmins SuperAdmin[]
+  username   String      @id @unique
+  password   String
+  role       USER_ROLE
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  customer   Customer?
+  admin      Admin?
+  superAdmin SuperAdmin?
 
   @@map("users")
 }
@@ -29,8 +28,8 @@ model Customer {
   email         String
   contactNo     String
   address       String
-  userId        String
-  user          User           @relation(fields: [userId], references: [id])
+  username      String         @unique
+  user          User           @relation(fields: [username], references: [username])
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   payments      Payment[]
@@ -49,8 +48,8 @@ model Admin {
   email        String
   contactNo    String
   address      String
-  userId       String
-  user         User       @relation(fields: [userId], references: [id])
+  username     String     @unique
+  user         User       @relation(fields: [username], references: [username])
   permissionId String
   permission   Permission @relation(fields: [permissionId], references: [title])
   createdAt    DateTime   @default(now())
@@ -67,8 +66,8 @@ model SuperAdmin {
   email      String
   contactNo  String
   address    String
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
+  username   String   @unique
+  user       User     @relation(fields: [username], references: [username])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
@@ -199,7 +198,7 @@ model FAQ {
 enum USER_ROLE {
   super_admin
   admin
-  user
+  customer
 }
 
 enum Status {

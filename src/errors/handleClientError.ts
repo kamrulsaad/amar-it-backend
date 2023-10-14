@@ -24,6 +24,12 @@ const handleClientError = (error: Prisma.PrismaClientKnownRequestError) => {
         },
       ];
     }
+  } else if (error.code === 'P2002' && error.meta?.target) {
+    message = `This ${error.meta.target} is already in use.`;
+    errors.push({
+      path: error.meta.target.toString(),
+      message: `This ${error.meta.target} is already in use.`,
+    });
   }
 
   return {

@@ -3,11 +3,6 @@ import config from './config';
 import { errorLogger, logger } from './shared/logger';
 import { Server } from 'http';
 
-process.on('uncaughtException', error => {
-  errorLogger.error(error);
-  process.exit(1);
-});
-
 async function bootstrap() {
   const server: Server = app.listen(config.port, () => {
     logger.info(`🚀 Server running on port ${config.port}`);
