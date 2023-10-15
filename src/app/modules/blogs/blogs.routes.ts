@@ -1,5 +1,5 @@
+import { USER_ROLE } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
-import { ENUM_USER_ROLE } from '../../../enums/user';
 import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 import auth from '../../middlewares/auth';
 import { BlogController } from './blogs.controller';
@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(USER_ROLE.admin),
   FileUploadHelper.upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = BlogValidation.createBlogZodSchema.parse(
@@ -24,7 +24,7 @@ router
   .route('/:id')
   .get(BlogController.getByIdFromDB)
   .patch(
-    auth(ENUM_USER_ROLE.ADMIN),
+    auth(USER_ROLE.admin),
     FileUploadHelper.upload.single('file'),
     (req: Request, res: Response, next: NextFunction) => {
       req.body = BlogValidation.updateBlogZodSchema.parse(
@@ -33,6 +33,6 @@ router
       return BlogController.updateIntoDB(req, res, next);
     },
   )
-  .delete(auth(ENUM_USER_ROLE.ADMIN), BlogController.deleteFromDB);
+  .delete(auth(USER_ROLE.admin), BlogController.deleteFromDB);
 
 export const BlogsRoute = router;
