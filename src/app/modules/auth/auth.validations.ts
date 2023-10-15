@@ -67,7 +67,6 @@ const refreshToken = z.object({
   }),
 });
 
-
 export const AuthValidations = {
   signUpSchema,
   loginZodSchema,

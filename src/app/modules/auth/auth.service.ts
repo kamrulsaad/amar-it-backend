@@ -122,7 +122,7 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
 const logout = async (
   username: string,
 ): Promise<IRefreshTokenResponse | null> => {
- const isUserExist = await AuthUtils.isUserExist(username);
+  const isUserExist = await AuthUtils.isUserExist(username);
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
