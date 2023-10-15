@@ -153,7 +153,7 @@ model Blog {
   content        String
   image          String
   blogCategoryId String
-  blogCategory   BlogCategory @relation(fields: [blogCategoryId], references: [id])
+  blogCategory   BlogCategory @relation(fields: [blogCategoryId], references: [id], onDelete: Cascade)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
