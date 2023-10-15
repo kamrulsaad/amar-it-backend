@@ -49,16 +49,6 @@ const signUp = async (
         username: createdUser.username,
         profileImage: uploadedImage.secure_url as string,
       },
-      include: {
-        user: {
-          select: {
-            username: true,
-            role: true,
-            createdAt: true,
-            updatedAt: true,
-          },
-        },
-      },
     });
 
     return result;

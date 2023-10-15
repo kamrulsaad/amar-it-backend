@@ -60,9 +60,11 @@ const uploadToCloudinary = async (
 };
 
 const destroyToCloudinary = async (
-  public_id: string,
+  secureUrl: string,
 ): Promise<ICloudinaryResponse | undefined> => {
   return new Promise((resolve, reject) => {
+    const parts = secureUrl.split('/');
+    const public_id = parts[parts.length - 1].split('.')[0];
     cloudinary.uploader.destroy(
       public_id,
       (error: Error, result: ICloudinaryResponse) => {

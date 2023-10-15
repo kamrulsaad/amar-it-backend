@@ -40,14 +40,6 @@ const createAdmin = async (
         username: createdUser.username,
       },
       include: {
-        user: {
-          select: {
-            username: true,
-            role: true,
-            createdAt: true,
-            updatedAt: true,
-          },
-        },
         permission: true,
       },
     });

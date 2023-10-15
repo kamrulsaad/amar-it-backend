@@ -4,6 +4,7 @@ import { AuthRoutes } from '../modules/auth/auth.routes';
 import { PermissionRoutes } from '../modules/permission/permission.routes';
 import { FaqRoute } from '../modules/faq/faq.routes';
 import { BlogCategoryRoute } from '../modules/blog-category/blog-category.routes';
+import { AdminRoutes } from '../modules/admin/admin.routes';
 const router = express.Router();
 
 const moduleroutes = [
@@ -14,6 +15,10 @@ const moduleroutes = [
   {
     path: '/auth',
     route: AuthRoutes,
+  },
+  {
+    path: '/admins',
+    route: AdminRoutes,
   },
   {
     path: '/permissions',
