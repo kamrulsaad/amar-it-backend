@@ -20,7 +20,6 @@ const createAdmin = async (
   }
 
   const result = await prisma.$transaction(async transactionClient => {
-    
     const hashedPassword = await AuthUtils.hashPassword(password);
     const createdUser = await transactionClient.user.create({
       data: {
