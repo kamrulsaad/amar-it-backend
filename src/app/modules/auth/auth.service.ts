@@ -1,12 +1,16 @@
 import { Customer, USER_ROLE, User } from '@prisma/client';
-import prisma from '../../../shared/prisma';
-import { AuthUtils } from './auth.utils';
-import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
-import { ILoginUser, ILoginUserResponse } from './auth.interface';
-import { JwtHelper } from '../../../helpers/jwtHelper';
-import config from '../../../config';
 import { Secret } from 'jsonwebtoken';
+import config from '../../../config';
+import ApiError from '../../../errors/ApiError';
+import { JwtHelper } from '../../../helpers/jwtHelper';
+import prisma from '../../../shared/prisma';
+import {
+  ILoginUser,
+  ILoginUserResponse,
+  IRefreshTokenResponse,
+} from './auth.interface';
+import { AuthUtils } from './auth.utils';
 
 const signUp = async (user: User, customer: Customer): Promise<Customer> => {
   const { password, ...rest } = user;
@@ -85,38 +89,51 @@ const login = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   return { accessToken, refreshToken };
 };
 
-// const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
-//   let verifiedToken = null;
+const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
+  let verifiedToken = null;
+  try {
+    verifiedToken = JwtHelper.verifyToken(
+      token,
+      config.jwt.refresh_secret as Secret,
+    );
+  } catch (err) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Invalid Refresh Token');
+  }
 
-//   try {
-//     verifiedToken = JwtHelper.verifyToken(
-//       token,
-//       config.jwt.refresh_secret as Secret,
-//     );
-//   } catch (error) {
-//     throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid Refresh Token');
-//   }
+  const { username, role } = verifiedToken;
 
-//   const { id } = verifiedToken;
+  const isUserExist = await AuthUtils.isUserExist(username);
 
-//   const isUserExist = await A
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
 
-//   if (!isUserExist) {
-//     throw new ApiError('User does not exist', httpStatus.NOT_FOUND);
-//   }
+  const newAccessToken = JwtHelper.createToken(
+    { username, role },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string,
+  );
 
-//   const newAccessToken = JwtHelper.createToken(
-//     { id: isUserExist.id, role: isUserExist.role },
-//     config.jwt.secret as Secret,
-//     config.jwt.expires_in as string,
-//   );
+  return {
+    accessToken: newAccessToken,
+  };
+};
 
-//   return {
-//     accessToken: newAccessToken,
-//   };
-// };
+const logout = async (
+  username: string,
+): Promise<IRefreshTokenResponse | null> => {
+ const isUserExist = await AuthUtils.isUserExist(username);
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  return {
+    accessToken: '',
+  };
+};
 
 export const AuthService = {
   signUp,
   login,
+  logout,
+  refreshToken,
 };
