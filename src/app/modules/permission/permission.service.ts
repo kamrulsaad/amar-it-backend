@@ -73,7 +73,44 @@ const getAllFromDB = async (
   };
 };
 
+const getSingleFromDB = async (id: string): Promise<Permission | null> => {
+  const result = await prisma.permission.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
+const updateOneInDB = async (
+  id: string,
+  payload: Permission,
+): Promise<Permission | null> => {
+  const result = await prisma.permission.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+
+  return result;
+};
+
+const deleteOneFromDB = async (id: string): Promise<Permission | null> => {
+  const result = await prisma.permission.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 export const PermissionService = {
   insertIntoDB,
   getAllFromDB,
+  getSingleFromDB,
+  deleteOneFromDB,
+  updateOneInDB,
 };

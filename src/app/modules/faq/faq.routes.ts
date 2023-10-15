@@ -1,16 +1,16 @@
 import express from 'express';
-import { ENUM_USER_ROLE } from '../../../enums/user';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { FaqValidation } from './faq.validation';
 import { FaqController } from './faq.controller';
+import { USER_ROLE } from '@prisma/client';
 
 const router = express.Router();
 
 router.post(
   '/',
   validateRequest(FaqValidation.createFaqZodSchema),
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(USER_ROLE.super_admin, USER_ROLE.admin),
   FaqController.insertIntoDB,
 );
 
@@ -20,9 +20,12 @@ router
   .get(FaqController.getByIdFromDB)
   .patch(
     validateRequest(FaqValidation.updateFaqZodSchema),
-    auth(ENUM_USER_ROLE.ADMIN),
+    auth(USER_ROLE.super_admin, USER_ROLE.admin),
     FaqController.updateIntoDB,
   )
-  .delete(auth(ENUM_USER_ROLE.ADMIN), FaqController.deleteFromDB);
+  .delete(
+    auth(USER_ROLE.super_admin, USER_ROLE.admin),
+    FaqController.deleteFromDB,
+  );
 
 export const FaqRoute = router;

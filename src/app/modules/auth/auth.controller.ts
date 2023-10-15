@@ -5,10 +5,14 @@ import { AuthService } from './auth.service';
 import { Customer } from '@prisma/client';
 import { ILoginUserResponse, IRefreshTokenResponse } from './auth.interface';
 import httpStatus from 'http-status';
+import { IUploadFile } from '../../../interface/file';
 
 const signUp = catchAsync(async (req: Request, res: Response) => {
   const { user, customer } = req.body;
-  const result = await AuthService.signUp(user, customer);
+
+  const file = req.file as IUploadFile;
+
+  const result = await AuthService.signUp(user, customer, file);
   sendResponse<Customer>(res, {
     statusCode: httpStatus.CREATED,
     success: true,
