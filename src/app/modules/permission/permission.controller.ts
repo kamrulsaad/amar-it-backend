@@ -32,7 +32,40 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleFromDB = catchAsync(async (req: Request, res: Response) => {
+  const result = await PermissionService.getSingleFromDB(req.params.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Permission fetched successfully',
+    data: result,
+  });
+});
+
+const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
+  const result = await PermissionService.updateOneInDB(req.params.id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Permission updated successfully',
+    data: result,
+  });
+});
+
+const deleteOneFromDB = catchAsync(async (req: Request, res: Response) => {
+  const result = await PermissionService.deleteOneFromDB(req.params.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Permission deleted successfully',
+    data: result,
+  });
+});
+
 export const PermissionController = {
   insertIntoDB,
   getAllFromDB,
+  getSingleFromDB,
+  deleteOneFromDB,
+  updateOneInDB,
 };

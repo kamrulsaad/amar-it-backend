@@ -1,9 +1,9 @@
+import { USER_ROLE } from '@prisma/client';
 import express from 'express';
-import { AuthController } from './auth.controller';
-import validateRequest from '../../middlewares/validateRequest';
-import { AuthValidations } from './auth.validations';
 import auth from '../../middlewares/auth';
-import { ENUM_USER_ROLE } from '../../../enums/user';
+import validateRequest from '../../middlewares/validateRequest';
+import { AuthController } from './auth.controller';
+import { AuthValidations } from './auth.validations';
 const router = express.Router();
 
 router.post(
@@ -26,11 +26,7 @@ router.post(
 
 router.delete(
   '/logout',
-  auth(
-    ENUM_USER_ROLE.ADMIN,
-    ENUM_USER_ROLE.CUSTOMER,
-    ENUM_USER_ROLE.SUPER_ADMIN,
-  ),
+  auth(USER_ROLE.super_admin, USER_ROLE.admin, USER_ROLE.customer),
   AuthController.logout,
 );
 export const AuthRoutes = router;
