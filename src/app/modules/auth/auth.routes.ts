@@ -1,15 +1,19 @@
 import { USER_ROLE } from '@prisma/client';
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { AuthController } from './auth.controller';
 import { AuthValidations } from './auth.validations';
+import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 const router = express.Router();
 
 router.post(
   '/signup',
-  validateRequest(AuthValidations.signUpSchema),
-  AuthController.signUp,
+  FileUploadHelper.upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = AuthValidations.signUpSchema.parse(JSON.parse(req.body.data));
+    return AuthController.signUp(req, res, next);
+  },
 );
 
 router.post(

@@ -11,8 +11,14 @@ import {
   IRefreshTokenResponse,
 } from './auth.interface';
 import { AuthUtils } from './auth.utils';
+import { IUploadFile } from '../../../interface/file';
+import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 
-const signUp = async (user: User, customer: Customer): Promise<Customer> => {
+const signUp = async (
+  user: User,
+  customer: Customer,
+  file: IUploadFile,
+): Promise<Customer> => {
   const { password, ...rest } = user;
 
   const isUserNameExist = await AuthUtils.isUserExist(user.username);
@@ -23,6 +29,7 @@ const signUp = async (user: User, customer: Customer): Promise<Customer> => {
 
   const result = await prisma.$transaction(async transactionClient => {
     const hashedPassword = await AuthUtils.hashPassword(password);
+
     const createdUser = await transactionClient.user.create({
       data: {
         ...rest,
@@ -31,10 +38,16 @@ const signUp = async (user: User, customer: Customer): Promise<Customer> => {
       },
     });
 
+    const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
+    if (!uploadedImage) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Image upload failed');
+    }
+
     const result = await transactionClient.customer.create({
       data: {
         ...customer,
         username: createdUser.username,
+        profileImage: uploadedImage.secure_url as string,
       },
       include: {
         user: {

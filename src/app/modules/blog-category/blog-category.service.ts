@@ -30,6 +30,7 @@ const updateIntoDB = async (
     data: payload,
   });
 };
+
 const deleteFromDB = async (id: string): Promise<BlogCategory> => {
   return await prisma.blogCategory.delete({
     where: {
