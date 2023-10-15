@@ -17,6 +17,7 @@ router.post(
   validateRequest(AuthValidations.loginZodSchema),
   AuthController.login,
 );
+
 router.post(
   '/refresh-token',
   validateRequest(AuthValidations.refreshToken),
@@ -25,7 +26,11 @@ router.post(
 
 router.delete(
   '/logout',
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER, ENUM_USER_ROLE.SUPER_ADMIN),
+  auth(
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.CUSTOMER,
+    ENUM_USER_ROLE.SUPER_ADMIN,
+  ),
   AuthController.logout,
 );
 export const AuthRoutes = router;

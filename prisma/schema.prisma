@@ -8,14 +8,13 @@ datasource db {
 }
 
 model User {
-  username   String      @id @unique
-  password   String
-  role       USER_ROLE
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  customer   Customer?
-  admin      Admin?
-  superAdmin SuperAdmin?
+  username  String    @id @unique
+  password  String
+  role      USER_ROLE
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  customers Customer?
+  admins    Admin?
 
   @@map("users")
 }
@@ -28,6 +27,7 @@ model Customer {
   email         String
   contactNo     String
   address       String
+  profileImage  String?
   username      String         @unique
   user          User           @relation(fields: [username], references: [username])
   createdAt     DateTime       @default(now())
@@ -48,34 +48,20 @@ model Admin {
   email        String
   contactNo    String
   address      String
+  profileImage String?
   username     String     @unique
   user         User       @relation(fields: [username], references: [username])
   permissionId String
-  permission   Permission @relation(fields: [permissionId], references: [title])
+  permission   Permission @relation(fields: [permissionId], references: [id])
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
   @@map("admins")
 }
 
-model SuperAdmin {
-  id         String   @id @default(uuid())
-  firstName  String
-  middleName String?
-  lastName   String
-  email      String
-  contactNo  String
-  address    String
-  username   String   @unique
-  user       User     @relation(fields: [username], references: [username])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@map("super_admins")
-}
-
 model Permission {
-  title String @id
+  id    String @id @default(uuid())
+  title String
 
   admins Admin[]
 
