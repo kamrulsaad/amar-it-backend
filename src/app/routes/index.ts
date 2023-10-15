@@ -2,6 +2,8 @@ import express from 'express';
 import { UserRoutes } from '../modules/user/user.routes';
 import { AuthRoutes } from '../modules/auth/auth.routes';
 import { PermissionRoutes } from '../modules/permission/permission.routes';
+import { FaqRoute } from '../modules/faq/faq.routes';
+import { BlogCategoryRoute } from '../modules/blog-category/blog-category.routes';
 const router = express.Router();
 
 const moduleroutes = [
@@ -16,6 +18,14 @@ const moduleroutes = [
   {
     path: '/permissions',
     route: PermissionRoutes,
+  },
+  {
+    path: '/faq',
+    route: FaqRoute,
+  },
+  {
+    path: '/blog-category',
+    route: BlogCategoryRoute,
   },
 ];
 
