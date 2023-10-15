@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import * as fs from 'fs';
 import multer from 'multer';
+import path from 'path';
 
 import config from '../config';
 import { ICloudinaryResponse, IUploadFile } from '../interface/file';
@@ -21,7 +22,25 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    const filetypes = /jpeg|jpg|png|gif/;
+    const mimetype = filetypes.test(file.mimetype);
+    const extname = filetypes.test(
+      path.extname(file.originalname).toLowerCase(),
+    );
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb(
+      new Error(
+        `Error: File upload only supports the following filetypes - ${filetypes}`,
+      ),
+    );
+  },
+  limits: { fileSize: 1024 * 1024 * 5 },
+});
 
 const uploadToCloudinary = async (
   file: IUploadFile,
