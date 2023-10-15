@@ -8,6 +8,7 @@ import { IAdminFilterRequest } from './admin.interface';
 import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
+import { IUploadFile } from '../../../interface/file';
 
 const getAllFromDB = async (
   filters: IAdminFilterRequest,
@@ -84,6 +85,46 @@ const getSingleFromDB = async (id: string): Promise<Admin | null> => {
   return result;
 };
 
+const updateOneInDB = async (
+  id: string,
+  data: Prisma.AdminUpdateInput,
+  file: IUploadFile,
+): Promise<Admin | null> => {
+  const isAdminExist = await prisma.admin.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!isAdminExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found');
+  }
+
+  if (file && isAdminExist.profileImage) {
+    const newImageURL = await FileUploadHelper.replaceImage(
+      isAdminExist.profileImage,
+      file,
+    );
+    if (newImageURL) {
+      data.profileImage = newImageURL.secure_url as string;
+    }
+  }
+
+  const result = await prisma.admin.update({
+    where: {
+      id,
+    },
+    data: {
+      ...data,
+    },
+    include: {
+      permission: true,
+    },
+  });
+
+  return result;
+};
+
 const deleteFromDB = async (id: string): Promise<Admin | null> => {
   const result = await prisma.$transaction(async transactionClient => {
     const deletedAdmin = await transactionClient.admin.delete({
@@ -115,4 +156,5 @@ export const AdminService = {
   getAllFromDB,
   getSingleFromDB,
   deleteFromDB,
+  updateOneInDB,
 };

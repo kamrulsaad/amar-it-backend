@@ -4,6 +4,8 @@ import multer from 'multer';
 import path from 'path';
 import config from '../config';
 import { ICloudinaryResponse, IUploadFile } from '../interface/file';
+import ApiError from '../errors/ApiError';
+import httpStatus from 'http-status';
 
 cloudinary.config({
   cloud_name: config.cloudinary.cloudName,
@@ -78,8 +80,21 @@ const destroyToCloudinary = async (
   });
 };
 
+const replaceImage = async (
+  existingSecureUrl: string,
+  newFile: IUploadFile,
+): Promise<ICloudinaryResponse | undefined> => {
+  try {
+    await destroyToCloudinary(existingSecureUrl);
+    return await uploadToCloudinary(newFile);
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Image upload failed');
+  }
+};
+
 export const FileUploadHelper = {
   uploadToCloudinary,
   upload,
   destroyToCloudinary,
+  replaceImage,
 };
