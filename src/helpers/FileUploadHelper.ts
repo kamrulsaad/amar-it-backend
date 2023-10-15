@@ -2,7 +2,6 @@ import { v2 as cloudinary } from 'cloudinary';
 import * as fs from 'fs';
 import multer from 'multer';
 import path from 'path';
-
 import config from '../config';
 import { ICloudinaryResponse, IUploadFile } from '../interface/file';
 
