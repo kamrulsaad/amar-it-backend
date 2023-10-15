@@ -77,10 +77,10 @@ const getAllFromDB = async (
     andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.blog.findMany({
+    where: whereConditions,
     include: {
       blogCategory: true,
     },
-    where: whereConditions,
     skip,
     take: limit,
     orderBy:
@@ -109,6 +109,9 @@ const getByIdFromDB = async (id: string): Promise<Blog | null> => {
     where: {
       id,
     },
+    include: {
+      blogCategory: true,
+    },
   });
 };
 
@@ -118,21 +121,25 @@ const updateIntoDB = async (
   payload: Partial<Blog>,
 ): Promise<Blog> => {
   return await prisma.$transaction(async tx => {
-    if (file) {
-      const existingBlog = await tx.blog.findUnique({
-        where: { id },
-        select: { image: true },
-      });
+    const existingBlog = await tx.blog.findUnique({
+      where: { id },
+    });
 
-      if (existingBlog?.image) {
-        await FileUploadHelper.destroyToCloudinary(existingBlog.image);
-      }
-      const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
-      if (!uploadedImage) {
+    if (!existingBlog) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Blog not found');
+    }
+
+    if (file && existingBlog.image) {
+      const response = await FileUploadHelper.replaceImage(
+        existingBlog.image,
+        file,
+      );
+      if (!response) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Image upload failed');
       }
-      payload.image = uploadedImage.secure_url as string;
+      payload.image = response.secure_url as string;
     }
+
     return tx.blog.update({
       where: { id },
       data: payload,
