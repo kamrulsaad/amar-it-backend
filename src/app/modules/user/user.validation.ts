@@ -32,6 +32,9 @@ const createAdminSchema = z.object({
         required_error: 'Address is required',
       }),
       profileImage: z.string().optional(),
+      permissionId: z.string({
+        required_error: 'Permission is Required',
+      }),
     }),
   }),
 });

@@ -4,6 +4,8 @@ import validateRequest from '../../middlewares/validateRequest';
 import { PermissionValidation } from './permission.validation';
 const router = express.Router();
 
+router.get('/', PermissionController.getAllFromDB);
+
 router.post(
   '/',
   validateRequest(PermissionValidation.create),

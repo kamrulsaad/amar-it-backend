@@ -27,7 +27,6 @@ const createAdmin = async (admin: Admin, user: User) => {
       data: {
         ...admin,
         username: createdUser.username,
-        permissionId: '0a09b99b-621a-42c3-b225-c966be9df738',
       },
       include: {
         user: {
