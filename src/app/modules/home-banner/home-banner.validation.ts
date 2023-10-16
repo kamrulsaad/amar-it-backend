@@ -14,19 +14,13 @@ const createHomeBannerZodSchema = z.object({
 
 const updateHomeBannerZodSchema = z.object({
   title: z
-    .string({
-      required_error: 'Title is required',
-    })
+    .string()
     .optional(),
   content: z
-    .string({
-      required_error: 'Content is required',
-    })
+    .string()
     .optional(),
   image: z
-    .string({
-      required_error: 'Image is required',
-    })
+    .string()
     .optional(),
 });
 
