@@ -1,7 +1,7 @@
-import express, { NextFunction, Request, Response } from 'express';
-import auth from '../../middlewares/auth';
 import { USER_ROLE } from '@prisma/client';
+import express, { NextFunction, Request, Response } from 'express';
 import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
+import auth from '../../middlewares/auth';
 import { CustomerController } from './customer.controller';
 import { CustomerValidation } from './customer.validation';
 const router = express.Router();
@@ -23,7 +23,9 @@ router
     )
     .delete(
         auth(USER_ROLE.admin, USER_ROLE.super_admin),
-        CustomerController.deleteFromDB,
-    );
+        CustomerController.deleteFromDB);
+    
+//Re-route into other resource routers
+router.use('/:feedbackID/feedback', CustomerController.getCustomerFeedbackFromDB);
 
 export const CustomerRoutes = router;

@@ -10,6 +10,7 @@ import { CustomerRoutes } from '../modules/customer/customer.routes';
 import { PackageRoutes } from '../modules/package/package.routes';
 import { HomeBannerContentsRoute } from '../modules/home-banner/home-banner.routes';
 import { BookingRoutes } from '../modules/booking/booking.routes';
+import { FeedbackRoute } from '../modules/feedback/feedback.routes';
 const router = express.Router();
 
 const moduleroutes = [
@@ -56,6 +57,10 @@ const moduleroutes = [
     {
         path: '/booking',
         route: BookingRoutes,
+    },
+    {
+        path: '/feedback',
+        route: FeedbackRoute,
     },
 ];
 
