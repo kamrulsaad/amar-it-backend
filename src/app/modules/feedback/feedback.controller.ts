@@ -3,10 +3,12 @@ import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { FeedbackService } from './feedback.service';
+import { JwtPayload } from 'jsonwebtoken';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
     const payload = req.body;
-    const result = await FeedbackService.insertIntoDB(payload);
+    const { username } = req.user as JwtPayload;
+    const result = await FeedbackService.insertIntoDB(payload, username);
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
@@ -24,8 +26,6 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
         data: result,
     });
 });
-
-
 
 const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -50,9 +50,21 @@ const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const getSingleFromDB = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const result = await FeedbackService.getSingleFromDB(id);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Feedback fetched successfully',
+        data: result,
+    });
+});
+
 export const FaqController = {
     insertIntoDB,
     getAllFromDB,
     updateIntoDB,
     deleteFromDB,
+    getSingleFromDB,
 };

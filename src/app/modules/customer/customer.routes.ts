@@ -8,6 +8,12 @@ const router = express.Router();
 
 router.get('/', CustomerController.getAllFromDB);
 
+router.use(
+    '/:feedbackID/feedback',
+    auth(USER_ROLE.customer),
+    CustomerController.getCustomerFeedbackFromDB,
+);
+
 router
     .route('/:id')
     .get(CustomerController.getSingleFromDB)
@@ -23,9 +29,7 @@ router
     )
     .delete(
         auth(USER_ROLE.admin, USER_ROLE.super_admin),
-        CustomerController.deleteFromDB);
-    
-//Re-route into other resource routers
-router.use('/:feedbackID/feedback', CustomerController.getCustomerFeedbackFromDB);
+        CustomerController.deleteFromDB,
+    );
 
 export const CustomerRoutes = router;

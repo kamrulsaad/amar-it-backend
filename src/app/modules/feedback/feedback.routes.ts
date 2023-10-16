@@ -11,22 +11,20 @@ const router = express.Router({
 
 router.post(
     '/',
-    validateRequest(FeedbackValidation.createFeedbackZodSchema),
     auth(USER_ROLE.customer),
+    validateRequest(FeedbackValidation.createFeedbackZodSchema),
     FaqController.insertIntoDB,
 );
 
 router.get('/', FaqController.getAllFromDB);
 router
     .route('/:id')
+    .get(FaqController.getSingleFromDB)
     .patch(
         validateRequest(FeedbackValidation.updateFeedbackZodSchema),
         auth(USER_ROLE.customer),
         FaqController.updateIntoDB,
     )
-    .delete(
-        auth(USER_ROLE.super_admin),
-        FaqController.deleteFromDB,
-    );
+    .delete(auth(USER_ROLE.super_admin), FaqController.deleteFromDB);
 
 export const FeedbackRoute = router;
