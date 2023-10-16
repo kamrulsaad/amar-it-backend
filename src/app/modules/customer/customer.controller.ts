@@ -10,63 +10,66 @@ import { customerSearchableFields } from './customer.constant';
 import { CustomerService } from './customer.service';
 
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, customerSearchableFields);
-  const paginationOptions = pick(req.query, paginationFields);
+    const filters = pick(req.query, customerSearchableFields);
+    const paginationOptions = pick(req.query, paginationFields);
 
-  const result = await CustomerService.getAllFromDB(filters, paginationOptions);
+    const result = await CustomerService.getAllFromDB(
+        filters,
+        paginationOptions,
+    );
 
-  sendResponse<Customer[]>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Customers retrieved successfully !',
-    meta: result.meta,
-    data: result.data,
-  });
+    sendResponse<Customer[]>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Customers retrieved successfully !',
+        meta: result.meta,
+        data: result.data,
+    });
 });
 
 const getSingleFromDB = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
+    const { id } = req.params;
 
-  const result = await CustomerService.getSingleFromDB(id);
+    const result = await CustomerService.getSingleFromDB(id);
 
-  sendResponse<Customer>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Customer retrieved successfully !',
-    data: result,
-  });
+    sendResponse<Customer>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Customer retrieved successfully !',
+        data: result,
+    });
 });
 
 const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const file = req.file as IUploadFile;
+    const { id } = req.params;
+    const file = req.file as IUploadFile;
 
-  const result = await CustomerService.updateOneInDB(id, req.body, file);
+    const result = await CustomerService.updateOneInDB(id, req.body, file);
 
-  sendResponse<Customer>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Customer updated successfully !',
-    data: result,
-  });
+    sendResponse<Customer>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Customer updated successfully !',
+        data: result,
+    });
 });
 
 const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
+    const { id } = req.params;
 
-  const result = await CustomerService.deleteFromDB(id);
+    const result = await CustomerService.deleteFromDB(id);
 
-  sendResponse<Customer>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Customer deleted successfully !',
-    data: result,
-  });
+    sendResponse<Customer>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Customer deleted successfully !',
+        data: result,
+    });
 });
 
 export const CustomerController = {
-  getAllFromDB,
-  getSingleFromDB,
-  deleteFromDB,
-  updateOneInDB,
+    getAllFromDB,
+    getSingleFromDB,
+    deleteFromDB,
+    updateOneInDB,
 };

@@ -1,3 +1,3 @@
 export type IPermissionFilterRequest = {
-  searchTerm?: string;
+    searchTerm?: string;
 };

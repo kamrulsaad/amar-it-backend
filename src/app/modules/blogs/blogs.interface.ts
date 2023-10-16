@@ -1,4 +1,4 @@
 export type IBlogFilterRequest = {
-  searchTerm?: string | undefined;
-  blogCategoryId?: string | undefined;
+    searchTerm?: string | undefined;
+    blogCategoryId?: string | undefined;
 };

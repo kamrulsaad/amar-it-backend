@@ -21,17 +21,17 @@ app.use(globalErrorHandler);
 
 // 404 Route
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.status(httpStatus.NOT_FOUND).json({
-    success: false,
-    message: 'Route not found on the server',
-    errorMessages: [
-      {
-        path: req.originalUrl,
+    res.status(httpStatus.NOT_FOUND).json({
+        success: false,
         message: 'Route not found on the server',
-      },
-    ],
-  });
-  next();
+        errorMessages: [
+            {
+                path: req.originalUrl,
+                message: 'Route not found on the server',
+            },
+        ],
+    });
+    next();
 });
 
 export default app;

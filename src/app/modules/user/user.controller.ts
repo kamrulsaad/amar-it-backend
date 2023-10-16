@@ -7,20 +7,20 @@ import { IUploadFile } from './../../../interface/file';
 import { UserService } from './user.service';
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
-  const { user, admin } = req.body;
+    const { user, admin } = req.body;
 
-  const file = req.file as IUploadFile;
+    const file = req.file as IUploadFile;
 
-  const result = await UserService.createAdmin(admin, user, file);
+    const result = await UserService.createAdmin(admin, user, file);
 
-  sendResponse<Admin>(res, {
-    statusCode: httpStatus.CREATED,
-    message: 'Admin created successfully',
-    success: true,
-    data: result,
-  });
+    sendResponse<Admin>(res, {
+        statusCode: httpStatus.CREATED,
+        message: 'Admin created successfully',
+        success: true,
+        data: result,
+    });
 });
 
 export const UserController = {
-  createAdmin,
+    createAdmin,
 };

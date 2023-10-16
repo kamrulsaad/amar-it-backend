@@ -8,21 +8,21 @@ import { BlogCategoryValidation } from './blog-category.validation';
 const router = express.Router();
 
 router.post(
-  '/',
-  validateRequest(BlogCategoryValidation.createBlogCategoryZodSchema),
-  auth(USER_ROLE.admin),
-  BlogCategoryController.insertIntoDB,
+    '/',
+    validateRequest(BlogCategoryValidation.createBlogCategoryZodSchema),
+    auth(USER_ROLE.admin),
+    BlogCategoryController.insertIntoDB,
 );
 
 router.get('/', BlogCategoryController.getAllFromDB);
 router
-  .route('/:id')
-  .get(BlogCategoryController.getByIdFromDB)
-  .patch(
-    validateRequest(BlogCategoryValidation.updateBlogCategoryZodSchema),
-    auth(USER_ROLE.admin),
-    BlogCategoryController.updateIntoDB,
-  )
-  .delete(auth(USER_ROLE.admin), BlogCategoryController.deleteFromDB);
+    .route('/:id')
+    .get(BlogCategoryController.getByIdFromDB)
+    .patch(
+        validateRequest(BlogCategoryValidation.updateBlogCategoryZodSchema),
+        auth(USER_ROLE.admin),
+        BlogCategoryController.updateIntoDB,
+    )
+    .delete(auth(USER_ROLE.admin), BlogCategoryController.deleteFromDB);
 
 export const BlogCategoryRoute = router;

@@ -8,29 +8,31 @@ import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 const router = express.Router();
 
 router.post(
-  '/signup',
-  FileUploadHelper.upload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
-    req.body = AuthValidations.signUpSchema.parse(JSON.parse(req.body.data));
-    return AuthController.signUp(req, res, next);
-  },
+    '/signup',
+    FileUploadHelper.upload.single('file'),
+    (req: Request, res: Response, next: NextFunction) => {
+        req.body = AuthValidations.signUpSchema.parse(
+            JSON.parse(req.body.data),
+        );
+        return AuthController.signUp(req, res, next);
+    },
 );
 
 router.post(
-  '/login',
-  validateRequest(AuthValidations.loginZodSchema),
-  AuthController.login,
+    '/login',
+    validateRequest(AuthValidations.loginZodSchema),
+    AuthController.login,
 );
 
 router.post(
-  '/refresh-token',
-  validateRequest(AuthValidations.refreshToken),
-  AuthController.refreshToken,
+    '/refresh-token',
+    validateRequest(AuthValidations.refreshToken),
+    AuthController.refreshToken,
 );
 
 router.delete(
-  '/logout',
-  auth(USER_ROLE.super_admin, USER_ROLE.admin, USER_ROLE.customer),
-  AuthController.logout,
+    '/logout',
+    auth(USER_ROLE.super_admin, USER_ROLE.admin, USER_ROLE.customer),
+    AuthController.logout,
 );
 export const AuthRoutes = router;

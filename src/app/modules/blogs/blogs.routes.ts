@@ -8,31 +8,31 @@ import { BlogValidation } from './blogs.validation';
 const router = express.Router();
 
 router.post(
-  '/',
-  auth(USER_ROLE.admin),
-  FileUploadHelper.upload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
-    req.body = BlogValidation.createBlogZodSchema.parse(
-      JSON.parse(req.body.data),
-    );
-    return BlogController.insertIntoDB(req, res, next);
-  },
+    '/',
+    auth(USER_ROLE.admin),
+    FileUploadHelper.upload.single('file'),
+    (req: Request, res: Response, next: NextFunction) => {
+        req.body = BlogValidation.createBlogZodSchema.parse(
+            JSON.parse(req.body.data),
+        );
+        return BlogController.insertIntoDB(req, res, next);
+    },
 );
 
 router.get('/', BlogController.getAllFromDB);
 router
-  .route('/:id')
-  .get(BlogController.getByIdFromDB)
-  .patch(
-    auth(USER_ROLE.admin),
-    FileUploadHelper.upload.single('file'),
-    (req: Request, res: Response, next: NextFunction) => {
-      req.body = BlogValidation.updateBlogZodSchema.parse(
-        JSON.parse(req.body.data),
-      );
-      return BlogController.updateIntoDB(req, res, next);
-    },
-  )
-  .delete(auth(USER_ROLE.admin), BlogController.deleteFromDB);
+    .route('/:id')
+    .get(BlogController.getByIdFromDB)
+    .patch(
+        auth(USER_ROLE.admin),
+        FileUploadHelper.upload.single('file'),
+        (req: Request, res: Response, next: NextFunction) => {
+            req.body = BlogValidation.updateBlogZodSchema.parse(
+                JSON.parse(req.body.data),
+            );
+            return BlogController.updateIntoDB(req, res, next);
+        },
+    )
+    .delete(auth(USER_ROLE.admin), BlogController.deleteFromDB);
 
 export const BlogsRoute = router;
