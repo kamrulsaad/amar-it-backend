@@ -59,12 +59,14 @@ const getAllFromDB = async (
         if (blogsRelationalFields.includes(key)) {
           return {
             [blogsRelationalFieldsMapper[key]]: {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               id: (filterData as any)[key],
             },
           };
         } else {
           return {
             [key]: {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               equals: (filterData as any)[key],
             },
           };
