@@ -1,12 +1,12 @@
-import { Customer, Prisma } from '@prisma/client';
-import { IGenericResponse } from '../../../interface/common';
-import { IPaginationOptions } from '../../../interface/pagination';
-import { paginationHelpers } from '../../../helpers/paginationHelper';
-import prisma from '../../../shared/prisma';
-import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
-import ApiError from '../../../errors/ApiError';
+import { Customer, Feedback, Prisma } from '@prisma/client';
 import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
+import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interface/common';
 import { IUploadFile } from '../../../interface/file';
+import { IPaginationOptions } from '../../../interface/pagination';
+import prisma from '../../../shared/prisma';
 import { customerSearchableFields } from './customer.constant';
 import { ICustomerFilterRequest } from './customer.interface';
 
@@ -146,9 +146,42 @@ const deleteFromDB = async (id: string): Promise<Customer | null> => {
     return result;
 };
 
+const getCustomerFeedbackFromDB = async (
+    userName: string,
+    id: string,
+): Promise<Feedback | null> => {
+    const result = await prisma.feedback.findUnique({
+        where: {
+            id,
+        },
+        include: {
+            customer: {
+                select: {
+                    username: true,
+                },
+            },
+            package: true,
+        },
+    });
+
+    if (!result) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Feedback not found');
+    }
+
+    if (result?.customer?.username !== userName) {
+        throw new ApiError(
+            httpStatus.FORBIDDEN,
+            'You are not authorized to access this feedback',
+        );
+    }
+
+    return result;
+};
+
 export const CustomerService = {
     getAllFromDB,
     getSingleFromDB,
     deleteFromDB,
     updateOneInDB,
+    getCustomerFeedbackFromDB,
 };

@@ -1,11 +1,12 @@
+import { Customer, Feedback } from '@prisma/client';
 import { Request, Response } from 'express';
-import catchAsync from '../../../shared/catchAsync';
-import { paginationFields } from '../../../constant/pagination';
-import { pick } from '../../../shared/utils';
-import sendResponse from '../../../shared/sendResponse';
-import { Customer } from '@prisma/client';
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
+import { paginationFields } from '../../../constant/pagination';
 import { IUploadFile } from '../../../interface/file';
+import catchAsync from '../../../shared/catchAsync';
+import sendResponse from '../../../shared/sendResponse';
+import { pick } from '../../../shared/utils';
 import { customerSearchableFields } from './customer.constant';
 import { CustomerService } from './customer.service';
 
@@ -67,9 +68,28 @@ const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const getCustomerFeedbackFromDB = catchAsync(
+    async (req: Request, res: Response) => {
+        const { feedbackID } = req.params;
+        const { username } = req.user as JwtPayload;
+        const result = await CustomerService.getCustomerFeedbackFromDB(
+            username,
+            feedbackID,
+        );
+
+        sendResponse<Feedback>(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: 'Feedback retrieved successfully !',
+            data: result,
+        });
+    },
+);
+
 export const CustomerController = {
     getAllFromDB,
     getSingleFromDB,
     deleteFromDB,
     updateOneInDB,
+    getCustomerFeedbackFromDB,
 };
