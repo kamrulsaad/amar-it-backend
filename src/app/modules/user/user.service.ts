@@ -7,49 +7,49 @@ import prisma from '../../../shared/prisma';
 import { AuthUtils } from '../auth/auth.utils';
 
 const createAdmin = async (
-  admin: Admin,
-  user: User,
-  file: IUploadFile,
+    admin: Admin,
+    user: User,
+    file: IUploadFile,
 ): Promise<Admin> => {
-  const { password, ...rest } = user;
+    const { password, ...rest } = user;
 
-  const isUserNameExist = await AuthUtils.isUserExist(user.username);
+    const isUserNameExist = await AuthUtils.isUserExist(user.username);
 
-  if (isUserNameExist) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Username already exists');
-  }
-
-  const result = await prisma.$transaction(async transactionClient => {
-    const hashedPassword = await AuthUtils.hashPassword(password);
-    const createdUser = await transactionClient.user.create({
-      data: {
-        ...rest,
-        role: USER_ROLE.admin,
-        password: hashedPassword,
-      },
-    });
-    const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
-    if (!uploadedImage) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Image upload failed');
+    if (isUserNameExist) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Username already exists');
     }
 
-    const result = await transactionClient.admin.create({
-      data: {
-        ...admin,
-        profileImage: uploadedImage.secure_url as string,
-        username: createdUser.username,
-      },
-      include: {
-        permission: true,
-      },
+    const result = await prisma.$transaction(async transactionClient => {
+        const hashedPassword = await AuthUtils.hashPassword(password);
+        const createdUser = await transactionClient.user.create({
+            data: {
+                ...rest,
+                role: USER_ROLE.admin,
+                password: hashedPassword,
+            },
+        });
+        const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
+        if (!uploadedImage) {
+            throw new ApiError(httpStatus.BAD_REQUEST, 'Image upload failed');
+        }
+
+        const result = await transactionClient.admin.create({
+            data: {
+                ...admin,
+                profileImage: uploadedImage.secure_url as string,
+                username: createdUser.username,
+            },
+            include: {
+                permission: true,
+            },
+        });
+
+        return result;
     });
 
     return result;
-  });
-
-  return result;
 };
 
 export const UserService = {
-  createAdmin,
+    createAdmin,
 };

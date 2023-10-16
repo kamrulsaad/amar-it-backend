@@ -13,54 +13,54 @@ import { BookingRoutes } from '../modules/booking/booking.routes';
 const router = express.Router();
 
 const moduleroutes = [
-  {
-    path: '/users',
-    route: UserRoutes,
-  },
-  {
-    path: '/auth',
-    route: AuthRoutes,
-  },
-  {
-    path: '/admins',
-    route: AdminRoutes,
-  },
-  {
-    path: '/permissions',
-    route: PermissionRoutes,
-  },
-  {
-    path: '/faq',
-    route: FaqRoute,
-  },
-  {
-    path: '/blog-category',
-    route: BlogCategoryRoute,
-  },
-  {
-    path: '/blogs',
-    route: BlogsRoute,
-  },
-  {
-    path: '/customers',
-    route: CustomerRoutes,
-  },
-  {
-    path: '/packages',
-    route: PackageRoutes,
-  },
-  {
-    path: '/home-banner',
-    route: HomeBannerContentsRoute,
-  },
-  {
-    path: '/booking',
-    route: BookingRoutes,
-  },
+    {
+        path: '/users',
+        route: UserRoutes,
+    },
+    {
+        path: '/auth',
+        route: AuthRoutes,
+    },
+    {
+        path: '/admins',
+        route: AdminRoutes,
+    },
+    {
+        path: '/permissions',
+        route: PermissionRoutes,
+    },
+    {
+        path: '/faq',
+        route: FaqRoute,
+    },
+    {
+        path: '/blog-category',
+        route: BlogCategoryRoute,
+    },
+    {
+        path: '/blogs',
+        route: BlogsRoute,
+    },
+    {
+        path: '/customers',
+        route: CustomerRoutes,
+    },
+    {
+        path: '/packages',
+        route: PackageRoutes,
+    },
+    {
+        path: '/home-banner',
+        route: HomeBannerContentsRoute,
+    },
+    {
+        path: '/booking',
+        route: BookingRoutes,
+    },
 ];
 
 moduleroutes.forEach(route => {
-  router.use(route.path, route.route);
+    router.use(route.path, route.route);
 });
 
 export default router;
