@@ -42,15 +42,15 @@ const updateIntoDB = async (
   file: IUploadFile,
   payload: Partial<HomeBannerContents>,
 ): Promise<HomeBannerContents> => {
-  return await prisma.$transaction(async tx => {
-    const isExistHomeBanner = await tx.homeBannerContents.findUnique({
-      where: { id },
-    });
+  const isExistHomeBanner = await prisma.homeBannerContents.findUnique({
+    where: { id },
+  });
 
-    if (!isExistHomeBanner) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Home Banner not found');
-    }
+  if (!isExistHomeBanner) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Home Banner not found');
+  }
 
+  const result = await prisma.$transaction(async tx => {
     if (file && isExistHomeBanner.image) {
       const response = await FileUploadHelper.replaceImage(
         isExistHomeBanner.image,
@@ -62,11 +62,19 @@ const updateIntoDB = async (
       payload.image = response.secure_url as string;
     }
 
-    return tx.homeBannerContents.update({
+    const result = await tx.homeBannerContents.update({
       where: { id },
       data: payload,
     });
+
+    if (!result) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Update failed');
+    }
+
+    return result;
   });
+
+  return result;
 };
 
 const deleteFromDB = async (id: string): Promise<HomeBannerContents> => {

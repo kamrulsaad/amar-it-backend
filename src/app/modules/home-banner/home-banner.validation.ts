@@ -7,21 +7,11 @@ const createHomeBannerZodSchema = z.object({
   content: z.string({
     required_error: 'Content is required',
   }),
-  image: z.string({
-    required_error: 'Image is required',
-  }),
 });
 
 const updateHomeBannerZodSchema = z.object({
-  title: z
-    .string()
-    .optional(),
-  content: z
-    .string()
-    .optional(),
-  image: z
-    .string()
-    .optional(),
+  title: z.string().optional(),
+  content: z.string().optional(),
 });
 
 export const HomeBannerValidation = {

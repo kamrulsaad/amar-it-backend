@@ -98,8 +98,8 @@ model Payment {
 
 model Booking {
   id         String   @id @default(uuid())
-  startTime  DateTime
-  endTime    DateTime
+  startTime  String
+  endTime    String
   date       DateTime
   status     Status
   customerId String
