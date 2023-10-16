@@ -3,6 +3,5 @@ export type IBookingFilterRequest = {
     startTime?: string;
     endTime?: string;
     status?: string;
-    date?: string;
     packageId?: string;
 };

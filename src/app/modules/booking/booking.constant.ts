@@ -2,7 +2,6 @@ export const bookingFilterableFields = [
     'searchTerm',
     'startTime',
     'endTime',
-    'date',
     'status',
     'packageId',
 ];
@@ -10,6 +9,5 @@ export const bookingFilterableFields = [
 export const bookingSearchableFields = [
     'startTime',
     'endTime',
-    'date',
     'packageId',
 ];

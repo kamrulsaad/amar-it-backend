@@ -36,9 +36,6 @@ const create = z.object({
                         'Invalid date format. Date must be in format "YYYY-MM-DD"',
                 },
             ),
-        date: z.string({
-            required_error: 'Date is required',
-        }),
         packageId: z.string({
             required_error: 'Package id is required',
         }),
@@ -47,10 +44,47 @@ const create = z.object({
 
 const update = z.object({
     body: z.object({
-        startTime: z.string().optional(),
-        endTime: z.string().optional(),
-        date: z.string().optional(),
-        packageId: z.string().optional(),
+        startTime: z
+            .string({
+                required_error: 'Start time is required',
+            })
+            .refine(
+                value => {
+                    const date = new Date(value);
+                    return (
+                        !isNaN(date.getTime()) &&
+                        value.match(/^\d{4}-\d{2}-\d{2}$/)
+                    );
+                },
+                {
+                    message:
+                        'Invalid date format. Date must be in format "YYYY-MM-DD"',
+                },
+            )
+            .optional(),
+        endTime: z
+            .string({
+                required_error: 'End time is required',
+            })
+            .refine(
+                value => {
+                    const date = new Date(value);
+                    return (
+                        !isNaN(date.getTime()) &&
+                        value.match(/^\d{4}-\d{2}-\d{2}$/)
+                    );
+                },
+                {
+                    message:
+                        'Invalid date format. Date must be in format "YYYY-MM-DD"',
+                },
+            )
+            .optional(),
+        packageId: z
+            .string({
+                required_error: 'Package id is required',
+            })
+            .optional(),
     }),
 });
 

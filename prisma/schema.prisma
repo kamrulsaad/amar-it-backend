@@ -100,7 +100,6 @@ model Booking {
   id         String   @id @default(uuid())
   startTime  String
   endTime    String
-  date       DateTime
   status     Status
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id])

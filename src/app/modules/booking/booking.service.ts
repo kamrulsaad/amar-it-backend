@@ -94,7 +94,7 @@ const getAllFromDB = async (
             options.sortBy && options.sortOrder
                 ? { [options.sortBy]: options.sortOrder }
                 : {
-                      date: 'desc',
+                      id: 'desc',
                   },
     });
     const total = await prisma.booking.count({
