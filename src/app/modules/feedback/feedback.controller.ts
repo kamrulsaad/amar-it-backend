@@ -61,7 +61,7 @@ const getSingleFromDB = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-export const FaqController = {
+export const FeedbacController = {
     insertIntoDB,
     getAllFromDB,
     updateIntoDB,
