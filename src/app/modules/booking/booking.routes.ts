@@ -1,8 +1,8 @@
+import { USER_ROLE } from '@prisma/client';
 import express from 'express';
 import auth from '../../middlewares/auth';
-import { USER_ROLE } from '@prisma/client';
-import { BookingController } from './booking.controller';
 import validateRequest from '../../middlewares/validateRequest';
+import { BookingController } from './booking.controller';
 import { BookingValidation } from './booking.validation';
 const router = express.Router();
 

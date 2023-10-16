@@ -1,17 +1,19 @@
 import { Booking, Prisma } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
-import prisma from '../../../shared/prisma';
-import { IBookingFilterRequest } from './booking.interface';
-import { IPaginationOptions } from '../../../interface/pagination';
-import { IGenericResponse } from '../../../interface/common';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interface/common';
+import { IPaginationOptions } from '../../../interface/pagination';
+import prisma from '../../../shared/prisma';
+import { convertToIsoDate } from '../../../shared/utils';
 import { bookingSearchableFields } from './booking.constant';
+import { IBookingFilterRequest } from './booking.interface';
 
 const insertIntoDB = async (
     username: string,
     payload: Booking,
 ): Promise<Booking> => {
+    const { startTime, endTime } = payload;
     const customer = await prisma.customer.findUnique({
         where: {
             username,
@@ -25,6 +27,8 @@ const insertIntoDB = async (
     const result = await prisma.booking.create({
         data: {
             ...payload,
+            startTime: convertToIsoDate(startTime),
+            endTime: convertToIsoDate(endTime),
             customerId: customer?.id,
             status: 'pending',
         },

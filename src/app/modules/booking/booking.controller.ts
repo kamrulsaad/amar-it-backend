@@ -1,13 +1,13 @@
-import { Request, Response } from 'express';
-import catchAsync from '../../../shared/catchAsync';
-import { BookingService } from './booking.service';
-import { JwtPayload } from 'jsonwebtoken';
-import sendResponse from '../../../shared/sendResponse';
 import { Booking } from '@prisma/client';
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
+import { paginationFields } from '../../../constant/pagination';
+import catchAsync from '../../../shared/catchAsync';
+import sendResponse from '../../../shared/sendResponse';
 import { pick } from '../../../shared/utils';
 import { bookingFilterableFields } from './booking.constant';
-import { paginationFields } from '../../../constant/pagination';
+import { BookingService } from './booking.service';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
     const { username } = req.user as JwtPayload;
