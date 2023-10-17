@@ -11,6 +11,7 @@ import { HomeBannerContentsRoute } from '../modules/home-banner/home-banner.rout
 import { PackageRoutes } from '../modules/package/package.routes';
 import { PermissionRoutes } from '../modules/permission/permission.routes';
 import { UserRoutes } from '../modules/user/user.routes';
+import { ServiceRoutes } from '../modules/service/service.routes';
 const router = express.Router();
 
 const moduleroutes = [
@@ -61,6 +62,10 @@ const moduleroutes = [
     {
         path: '/feedback',
         route: FeedbackRoute,
+    },
+    {
+        path: '/services',
+        route: ServiceRoutes,
     },
 ];
 

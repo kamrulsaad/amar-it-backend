@@ -13,8 +13,8 @@ model User {
   role      USER_ROLE
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  customer Customer?
-  admin    Admin?
+  customer  Customer?
+  admin     Admin?
 
   @@map("users")
 }
@@ -73,14 +73,29 @@ model Package {
   title     String
   bandwidth String
   features  String[]
-  price     Float
-  rate      Int
+  charge    Float
+  serviceId String
+  service   Service    @relation(fields: [serviceId], references: [id])
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   bookings  Booking[]
   feedbacks Feedback[]
 
   @@map("packages")
+}
+
+model Service {
+  id          String        @id @default(uuid())
+  title       String
+  description String
+  features    String[]
+  charge      Float
+  status      ServiceStatus @default(active)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  packages    Package[]
+
+  @@map("services")
 }
 
 model Payment {
@@ -191,4 +206,9 @@ enum Status {
   pending
   confirmed
   cancelled
+}
+
+enum ServiceStatus {
+  active
+  upcoming
 }
