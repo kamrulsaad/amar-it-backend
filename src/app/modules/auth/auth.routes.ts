@@ -35,4 +35,10 @@ router.delete(
     auth(USER_ROLE.super_admin, USER_ROLE.admin, USER_ROLE.customer),
     AuthController.logout,
 );
+router.post(
+    '/reset-password',
+    auth(USER_ROLE.super_admin, USER_ROLE.admin, USER_ROLE.customer),
+    validateRequest(AuthValidations.resetPassword),
+    AuthController.resetPassword,
+);
 export const AuthRoutes = router;
