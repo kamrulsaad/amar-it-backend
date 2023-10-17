@@ -1,11 +1,12 @@
+import { Customer } from '@prisma/client';
 import { Request, Response } from 'express';
+import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
+import { IUploadFile } from '../../../interface/file';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { AuthService } from './auth.service';
-import { Customer } from '@prisma/client';
 import { ILoginUserResponse, IRefreshTokenResponse } from './auth.interface';
-import httpStatus from 'http-status';
-import { IUploadFile } from '../../../interface/file';
+import { AuthService } from './auth.service';
 
 const signUp = catchAsync(async (req: Request, res: Response) => {
     const { user, customer } = req.body;
@@ -97,9 +98,26 @@ const logout = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const resetPassword = catchAsync(async (req: Request, res: Response) => {
+    const { oldPassword, newPassword } = req.body;
+    const { username } = req.user as JwtPayload;
+    const result = await AuthService.resetPassword(
+        username,
+        oldPassword,
+        newPassword,
+    );
+    sendResponse<IRefreshTokenResponse>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Password reset successfully',
+        data: result,
+    });
+});
+
 export const AuthController = {
     signUp,
     login,
     refreshToken,
     logout,
+    resetPassword,
 };

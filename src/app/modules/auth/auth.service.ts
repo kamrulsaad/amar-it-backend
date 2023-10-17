@@ -3,7 +3,9 @@ import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
+import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 import { JwtHelper } from '../../../helpers/jwtHelper';
+import { IUploadFile } from '../../../interface/file';
 import prisma from '../../../shared/prisma';
 import {
     ILoginUser,
@@ -11,8 +13,6 @@ import {
     IRefreshTokenResponse,
 } from './auth.interface';
 import { AuthUtils } from './auth.utils';
-import { IUploadFile } from '../../../interface/file';
-import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 
 const signUp = async (
     user: User,
@@ -128,6 +128,44 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
     };
 };
 
+const resetPassword = async (
+    username: string,
+    oldPassword: string,
+    newPassword: string,
+): Promise<IRefreshTokenResponse> => {
+    const isUserExist = await AuthUtils.isUserExist(username);
+    if (!isUserExist) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    }
+    const isPasswordMatch = await AuthUtils.isPasswordValid(
+        oldPassword,
+        isUserExist.password,
+    );
+    if (!isPasswordMatch) {
+        throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
+    }
+    const hashedPassword = await AuthUtils.hashPassword(newPassword);
+
+    const result = await prisma.user.update({
+        where: {
+            username,
+        },
+        data: {
+            password: hashedPassword,
+        },
+    });
+
+    const newAccessToken = JwtHelper.createToken(
+        { username, role: result.role },
+        config.jwt.secret as Secret,
+        config.jwt.expires_in as string,
+    );
+
+    return {
+        accessToken: newAccessToken,
+    };
+};
+
 const logout = async (
     username: string,
 ): Promise<IRefreshTokenResponse | null> => {
@@ -145,4 +183,5 @@ export const AuthService = {
     login,
     logout,
     refreshToken,
+    resetPassword,
 };
