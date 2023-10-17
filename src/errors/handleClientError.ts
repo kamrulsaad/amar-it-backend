@@ -30,6 +30,14 @@ const handleClientError = (error: Prisma.PrismaClientKnownRequestError) => {
             path: error.meta.target.toString(),
             message: `This ${error.meta.target} is already in use.`,
         });
+    } else if (error.code === 'P1010') {
+        message = 'Access denied';
+        errors = [
+            {
+                path: '',
+                message,
+            },
+        ];
     }
 
     return {
