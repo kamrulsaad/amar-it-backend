@@ -7,9 +7,6 @@ const createHomeBannerZodSchema = z.object({
     content: z.string({
         required_error: 'Content is required',
     }),
-    image: z.string({
-        required_error: 'Image is required',
-    }),
 });
 
 const updateHomeBannerZodSchema = z.object({
@@ -21,11 +18,6 @@ const updateHomeBannerZodSchema = z.object({
     content: z
         .string({
             required_error: 'Content is required',
-        })
-        .optional(),
-    image: z
-        .string({
-            required_error: 'Image is required',
         })
         .optional(),
 });
