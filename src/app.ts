@@ -8,7 +8,16 @@ import routes from './app/routes';
 const app: Application = express();
 
 // Middlewares
-app.use(cors());
+const corsOptions = {
+    origin: [
+        'http://localhost:3000',
+        'https://iridescent-dieffenbachia-ca41fb.netlify.app',
+        'https://book-catalog-app-lac.vercel.app',
+    ],
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use(express.json());
