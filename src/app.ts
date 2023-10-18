@@ -4,11 +4,17 @@ import cookieParser from 'cookie-parser';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import httpStatus from 'http-status';
 import routes from './app/routes';
+import config from './config';
 
 const app: Application = express();
 
 // Middlewares
-app.use(cors());
+app.use(
+    cors({
+        credentials: true,
+        origin: config.client_url,
+    }),
+);
 app.use(cookieParser());
 
 app.use(express.json());
