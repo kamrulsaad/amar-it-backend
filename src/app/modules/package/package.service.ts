@@ -77,6 +77,9 @@ const getSingleFromDB = async (id: string): Promise<Package | null> => {
         where: {
             id,
         },
+        include: {
+            service: true,
+        },
     });
 };
 

@@ -12,4 +12,5 @@ export const customerSearchableFields = [
     'firstName',
     'lastName',
     'middleName',
+    'address',
 ];

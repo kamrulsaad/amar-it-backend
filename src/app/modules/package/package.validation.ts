@@ -11,11 +11,8 @@ const create = z.object({
         features: z.array(z.string(), {
             required_error: 'Features is required',
         }),
-        price: z.number({
-            required_error: 'Price is required',
-        }),
-        rate: z.number({
-            required_error: 'Rate is required',
+        charge: z.number({
+            required_error: 'Charge amount is required',
         }),
     }),
 });

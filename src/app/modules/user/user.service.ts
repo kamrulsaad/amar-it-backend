@@ -19,33 +19,40 @@ const createAdmin = async (
         throw new ApiError(httpStatus.BAD_REQUEST, 'Username already exists');
     }
 
-    const result = await prisma.$transaction(async transactionClient => {
-        const hashedPassword = await AuthUtils.hashPassword(password);
-        const createdUser = await transactionClient.user.create({
-            data: {
-                ...rest,
-                role: USER_ROLE.admin,
-                password: hashedPassword,
-            },
-        });
-        const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
-        if (!uploadedImage) {
-            throw new ApiError(httpStatus.BAD_REQUEST, 'Image upload failed');
-        }
+    const result = await prisma.$transaction(
+        async transactionClient => {
+            const hashedPassword = await AuthUtils.hashPassword(password);
+            const createdUser = await transactionClient.user.create({
+                data: {
+                    ...rest,
+                    role: USER_ROLE.admin,
+                    password: hashedPassword,
+                },
+            });
+            const uploadedImage =
+                await FileUploadHelper.uploadToCloudinary(file);
+            if (!uploadedImage) {
+                throw new ApiError(
+                    httpStatus.BAD_REQUEST,
+                    'Image upload failed',
+                );
+            }
 
-        const result = await transactionClient.admin.create({
-            data: {
-                ...admin,
-                profileImage: uploadedImage.secure_url as string,
-                username: createdUser.username,
-            },
-            include: {
-                permission: true,
-            },
-        });
+            const result = await transactionClient.admin.create({
+                data: {
+                    ...admin,
+                    profileImage: uploadedImage.secure_url as string,
+                    username: createdUser.username,
+                },
+                include: {
+                    permission: true,
+                },
+            });
 
-        return result;
-    });
+            return result;
+        },
+        { timeout: 10000 },
+    );
 
     return result;
 };

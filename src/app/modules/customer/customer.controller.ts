@@ -7,11 +7,11 @@ import { IUploadFile } from '../../../interface/file';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { pick } from '../../../shared/utils';
-import { customerSearchableFields } from './customer.constant';
+import { customerFilterableFields } from './customer.constant';
 import { CustomerService } from './customer.service';
 
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
-    const filters = pick(req.query, customerSearchableFields);
+    const filters = pick(req.query, customerFilterableFields);
     const paginationOptions = pick(req.query, paginationFields);
 
     const result = await CustomerService.getAllFromDB(
