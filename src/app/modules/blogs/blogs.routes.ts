@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
     '/',
-    auth(USER_ROLE.admin),
+    auth(USER_ROLE.admin, USER_ROLE.super_admin),
     FileUploadHelper.upload.single('file'),
     (req: Request, res: Response, next: NextFunction) => {
         req.body = BlogValidation.createBlogZodSchema.parse(
@@ -24,7 +24,7 @@ router
     .route('/:id')
     .get(BlogController.getByIdFromDB)
     .patch(
-        auth(USER_ROLE.admin),
+        auth(USER_ROLE.admin, USER_ROLE.super_admin),
         FileUploadHelper.upload.single('file'),
         (req: Request, res: Response, next: NextFunction) => {
             req.body = BlogValidation.updateBlogZodSchema.parse(
@@ -33,6 +33,9 @@ router
             return BlogController.updateIntoDB(req, res, next);
         },
     )
-    .delete(auth(USER_ROLE.admin), BlogController.deleteFromDB);
+    .delete(
+        auth(USER_ROLE.admin, USER_ROLE.super_admin),
+        BlogController.deleteFromDB,
+    );
 
 export const BlogsRoute = router;
