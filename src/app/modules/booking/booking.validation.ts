@@ -11,8 +11,8 @@ const create = z.object({
         date: z.string({
             required_error: 'Date is required',
         }),
-        packageId: z.string({
-            required_error: 'Package id is required',
+        serviceId: z.string({
+            required_error: 'Service id is required',
         }),
     }),
 });
@@ -31,11 +31,6 @@ const update = z.object({
             .optional(),
         date: z.string().optional(),
         status: z.string().optional(),
-        packageId: z
-            .string({
-                required_error: 'Package id is required',
-            })
-            .optional(),
     }),
 });
 

@@ -78,7 +78,6 @@ model Package {
   service   Service    @relation(fields: [serviceId], references: [id])
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  bookings  Booking[]
   feedbacks Feedback[]
 
   @@map("packages")
@@ -94,6 +93,7 @@ model Service {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   packages    Package[]
+  bookings    Booking[]
 
   @@map("services")
 }
@@ -119,8 +119,8 @@ model Booking {
   status     Status   @default(pending)
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id])
-  packageId  String
-  package    Package  @relation(fields: [packageId], references: [id])
+  serviceId  String
+  service    Service  @relation(fields: [serviceId], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
