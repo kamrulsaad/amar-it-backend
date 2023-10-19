@@ -115,6 +115,7 @@ model Booking {
   id         String   @id @default(uuid())
   startTime  String
   endTime    String
+  date       DateTime
   status     Status   @default(pending)
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id])
