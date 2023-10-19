@@ -13,7 +13,7 @@ const insertIntoDB = async (
     username: string,
     payload: Booking,
 ): Promise<Booking> => {
-    const { startTime, endTime } = payload;
+    const { date } = payload;
     const customer = await prisma.customer.findUnique({
         where: {
             username,
@@ -27,8 +27,7 @@ const insertIntoDB = async (
     const result = await prisma.booking.create({
         data: {
             ...payload,
-            startTime: convertToIsoDate(startTime),
-            endTime: convertToIsoDate(endTime),
+            date: convertToIsoDate(String(date)),
             customerId: customer?.id,
             status: 'pending',
         },
@@ -76,10 +75,9 @@ const getAllFromDB = async (
         skip,
         take: limit,
         include: {
-            package: {
+            service: {
                 select: {
                     title: true,
-                    bandwidth: true,
                 },
             },
             customer: {
@@ -117,10 +115,9 @@ const getSingleFromDB = async (id: string): Promise<Booking | null> => {
             id,
         },
         include: {
-            package: {
+            service: {
                 select: {
                     title: true,
-                    bandwidth: true,
                 },
             },
             customer: {
