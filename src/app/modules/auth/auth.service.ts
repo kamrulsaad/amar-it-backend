@@ -3,9 +3,7 @@ import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
-import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 import { JwtHelper } from '../../../helpers/jwtHelper';
-import { IUploadFile } from '../../../interface/file';
 import prisma from '../../../shared/prisma';
 import {
     ILoginUser,
@@ -17,7 +15,6 @@ import { AuthUtils } from './auth.utils';
 const signUp = async (
     user: User,
     customer: Customer,
-    file: IUploadFile,
 ): Promise<Customer> => {
     const { password, ...rest } = user;
 
@@ -38,20 +35,21 @@ const signUp = async (
             },
         });
 
-        const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
-        if (!uploadedImage) {
-            throw new ApiError(httpStatus.BAD_REQUEST, 'Image upload failed');
-        }
+        // const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
+        // if (!uploadedImage) {
+        //     throw new ApiError(httpStatus.BAD_REQUEST, 'Image upload failed');
+        // }
 
         const result = await transactionClient.customer.create({
             data: {
                 ...customer,
                 username: createdUser.username,
-                profileImage: uploadedImage.secure_url as string,
             },
         });
 
         return result;
+    }, {
+        timeout: 10000,
     });
 
     return result;

@@ -8,7 +8,6 @@ import { IAdminFilterRequest } from './admin.interface';
 import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
-import { IUploadFile } from '../../../interface/file';
 
 const getAllFromDB = async (
     filters: IAdminFilterRequest,
@@ -89,7 +88,6 @@ const getSingleFromDB = async (id: string): Promise<Admin | null> => {
 const updateOneInDB = async (
     id: string,
     data: Prisma.AdminUpdateInput,
-    file: IUploadFile,
 ): Promise<Admin | null> => {
     const isAdminExist = await prisma.admin.findUnique({
         where: {
@@ -99,16 +97,6 @@ const updateOneInDB = async (
 
     if (!isAdminExist) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found');
-    }
-
-    if (file && isAdminExist.profileImage) {
-        const newImageURL = await FileUploadHelper.replaceImage(
-            isAdminExist.profileImage,
-            file,
-        );
-        if (newImageURL) {
-            data.profileImage = newImageURL.secure_url as string;
-        }
     }
 
     const result = await prisma.admin.update({

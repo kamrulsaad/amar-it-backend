@@ -1,16 +1,10 @@
 import { Admin, USER_ROLE, User } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
-import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
-import { IUploadFile } from '../../../interface/file';
 import prisma from '../../../shared/prisma';
 import { AuthUtils } from '../auth/auth.utils';
 
-const createAdmin = async (
-    admin: Admin,
-    user: User,
-    file: IUploadFile,
-): Promise<Admin> => {
+const createAdmin = async (admin: Admin, user: User): Promise<Admin> => {
     const { password, ...rest } = user;
 
     const isUserNameExist = await AuthUtils.isUserExist(user.username);
@@ -29,19 +23,10 @@ const createAdmin = async (
                     password: hashedPassword,
                 },
             });
-            const uploadedImage =
-                await FileUploadHelper.uploadToCloudinary(file);
-            if (!uploadedImage) {
-                throw new ApiError(
-                    httpStatus.BAD_REQUEST,
-                    'Image upload failed',
-                );
-            }
 
             const result = await transactionClient.admin.create({
                 data: {
                     ...admin,
-                    profileImage: uploadedImage.secure_url as string,
                     username: createdUser.username,
                 },
                 include: {
