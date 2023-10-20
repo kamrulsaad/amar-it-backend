@@ -15,7 +15,6 @@ router.post(
 
 router.get(
     '/',
-    auth(USER_ROLE.admin, USER_ROLE.super_admin),
     BookingController.getAllFromDB,
 );
 
