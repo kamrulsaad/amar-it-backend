@@ -34,3 +34,10 @@ export type ICloudinaryResponse = {
     api_key: string;
     UploadApiResponse: string | undefined;
 };
+
+export type CloudinaryParams = {
+    folder: string;
+    unique_filename: boolean;
+    allowed_formats: string[];
+    transformation: { width: number; height: number; crop: string }[];
+};
