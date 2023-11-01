@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post(
     '/',
-    auth(USER_ROLE.admin, USER_ROLE.super_admin),
+    auth(USER_ROLE.admin),
     validateRequest(ServiceValidation.create),
     ServiceController.insertIntoDB,
 );
@@ -19,12 +19,12 @@ router
     .route('/:id')
     .get(ServiceController.getOneFromDB)
     .patch(
-        auth(USER_ROLE.admin, USER_ROLE.super_admin),
+        auth(USER_ROLE.admin),
         validateRequest(ServiceValidation.update),
         ServiceController.updateOneInDB,
     )
     .delete(
-        auth(USER_ROLE.admin, USER_ROLE.super_admin),
+        auth(USER_ROLE.admin),
         ServiceController.deleteOneFromDB,
     );
 

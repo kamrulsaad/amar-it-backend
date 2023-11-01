@@ -10,7 +10,7 @@ const router = express.Router();
 router.post(
     '/',
     validateRequest(BlogCategoryValidation.createBlogCategoryZodSchema),
-    auth(USER_ROLE.admin, USER_ROLE.super_admin),
+    auth(USER_ROLE.admin),
     BlogCategoryController.insertIntoDB,
 );
 
@@ -20,12 +20,9 @@ router
     .get(BlogCategoryController.getByIdFromDB)
     .patch(
         validateRequest(BlogCategoryValidation.updateBlogCategoryZodSchema),
-        auth(USER_ROLE.admin, USER_ROLE.super_admin),
+        auth(USER_ROLE.admin),
         BlogCategoryController.updateIntoDB,
     )
-    .delete(
-        auth(USER_ROLE.admin, USER_ROLE.super_admin),
-        BlogCategoryController.deleteFromDB,
-    );
+    .delete(auth(USER_ROLE.admin), BlogCategoryController.deleteFromDB);
 
 export const BlogCategoryRoute = router;

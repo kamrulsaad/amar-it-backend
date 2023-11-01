@@ -7,6 +7,7 @@ import { AdminService } from './admin.service';
 import sendResponse from '../../../shared/sendResponse';
 import { Admin } from '@prisma/client';
 import httpStatus from 'http-status';
+import { IUploadFile } from '../../../interface/file';
 
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
     const filters = pick(req.query, adminFilterableFields);
@@ -38,8 +39,9 @@ const getSingleFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
+    const file = req.file as IUploadFile;
 
-    const result = await AdminService.updateOneInDB(id, req.body);
+    const result = await AdminService.updateOneInDB(id, req.body, file);
 
     sendResponse<Admin>(res, {
         statusCode: httpStatus.OK,
