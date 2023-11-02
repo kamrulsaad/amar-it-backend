@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
     '/',
-    auth(USER_ROLE.admin),
+    auth(USER_ROLE.admin, USER_ROLE.super_admin),
     FileUploadHelper.upload.single('file'),
     (req: Request, res: Response, next: NextFunction) => {
         req.body = HomeBannerValidation.createHomeBannerZodSchema.parse(
@@ -24,7 +24,7 @@ router
     .route('/:id')
     .get(HomeBannerController.getByIdFromDB)
     .patch(
-        auth(USER_ROLE.admin),
+        auth(USER_ROLE.admin, USER_ROLE.super_admin),
         FileUploadHelper.upload.single('file'),
         (req: Request, res: Response, next: NextFunction) => {
             req.body = HomeBannerValidation.updateHomeBannerZodSchema.parse(
@@ -34,7 +34,7 @@ router
         },
     )
     .delete(
-        auth(USER_ROLE.admin),
+        auth(USER_ROLE.admin, USER_ROLE.super_admin),
         HomeBannerController.deleteFromDB,
     );
 
