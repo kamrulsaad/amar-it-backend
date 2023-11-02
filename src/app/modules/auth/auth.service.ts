@@ -27,32 +27,41 @@ const signUp = async (
         throw new ApiError(httpStatus.BAD_REQUEST, 'Username already exists');
     }
 
-    const result = await prisma.$transaction(async transactionClient => {
-        const hashedPassword = await AuthUtils.hashPassword(password);
+    const result = await prisma.$transaction(
+        async transactionClient => {
+            const hashedPassword = await AuthUtils.hashPassword(password);
 
-        const createdUser = await transactionClient.user.create({
-            data: {
-                ...rest,
-                role: USER_ROLE.customer,
-                password: hashedPassword,
-            },
-        });
+            const createdUser = await transactionClient.user.create({
+                data: {
+                    ...rest,
+                    role: USER_ROLE.customer,
+                    password: hashedPassword,
+                },
+            });
 
-        const uploadedImage = await FileUploadHelper.uploadToCloudinary(file);
-        if (!uploadedImage) {
-            throw new ApiError(httpStatus.BAD_REQUEST, 'Image upload failed');
-        }
+            const uploadedImage =
+                await FileUploadHelper.uploadToCloudinary(file);
+            if (!uploadedImage) {
+                throw new ApiError(
+                    httpStatus.BAD_REQUEST,
+                    'Image upload failed',
+                );
+            }
 
-        const result = await transactionClient.customer.create({
-            data: {
-                ...customer,
-                username: createdUser.username,
-                profileImage: uploadedImage.secure_url as string,
-            },
-        });
+            const result = await transactionClient.customer.create({
+                data: {
+                    ...customer,
+                    username: createdUser.username,
+                    profileImage: uploadedImage.secure_url as string,
+                },
+            });
 
-        return result;
-    });
+            return result;
+        },
+        {
+            timeout: 10000,
+        },
+    );
 
     return result;
 };

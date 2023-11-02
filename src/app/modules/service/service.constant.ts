@@ -1,4 +1,9 @@
-export const serviceSearchableFields = ['title', 'description'];
+export const serviceSearchableFields = ['title', 'description', 'status'];
 
-export const serviceFilterableFields = ['searchTerm', 'title', 'charge', 'id'];
-
+export const serviceFilterableFields = [
+    'searchTerm',
+    'title',
+    'charge',
+    'id',
+    'status',
+];
