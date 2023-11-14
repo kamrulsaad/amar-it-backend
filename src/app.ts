@@ -12,7 +12,7 @@ app.use(
     cors({
         credentials: true,
         origin: [
-            'https://amar-it-frontend.vercel.app/',
+            'https://amar-it-frontend.vercel.app',
             'http://localhost:3000',
         ],
     }),
