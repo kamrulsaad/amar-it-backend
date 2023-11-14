@@ -41,9 +41,19 @@ const getAllFromDB = async (
 ): Promise<IGenericResponse<Booking[] | null>> => {
     const { limit, page, skip } =
         paginationHelpers.calculatePagination(options);
-    const { searchTerm, ...filterData } = filters;
+    const { searchTerm, username, ...filterData } = filters;
 
     const andConditions = [];
+
+    if (username) {
+        andConditions.push({
+            customer: {
+                username: {
+                    equals: username,
+                },
+            },
+        });
+    }
 
     if (searchTerm) {
         andConditions.push({

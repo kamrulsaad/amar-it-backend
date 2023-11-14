@@ -4,4 +4,5 @@ export type IBookingFilterRequest = {
     endTime?: string;
     status?: string;
     packageId?: string;
+    username?: string;
 };

@@ -3,7 +3,7 @@ export const bookingFilterableFields = [
     'startTime',
     'endTime',
     'status',
-    'customer.username',
+    'username',
 ];
 
 export const bookingSearchableFields = [
