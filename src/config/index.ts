@@ -11,6 +11,7 @@ export default {
     database_url: process.env.DATABASE_URL,
     client_url: process.env.CLIENT_URL,
     bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+    stripe_secret_key: process.env.STRIPE_SECRET_KEY,
     jwt: {
         secret: process.env.JWT_SECRET,
         expires_in: process.env.JWT_EXPIRES_IN,
