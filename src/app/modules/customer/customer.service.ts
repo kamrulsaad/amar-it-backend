@@ -103,6 +103,13 @@ const updateOneInDB = async (
         if (newImageURL) {
             data.profileImage = newImageURL.secure_url as string;
         }
+    } else {
+        if (file) {
+            const newImageURL = await FileUploadHelper.uploadToCloudinary(file);
+            if (newImageURL) {
+                data.profileImage = newImageURL.secure_url as string;
+            }
+        }
     }
 
     const result = await prisma.customer.update({
@@ -160,7 +167,6 @@ const getCustomerFeedbackFromDB = async (
                     username: true,
                 },
             },
-            package: true,
         },
     });
 

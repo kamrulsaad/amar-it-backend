@@ -18,7 +18,7 @@ router
     .route('/:id')
     .get(CustomerController.getSingleFromDB)
     .patch(
-        auth(USER_ROLE.admin, USER_ROLE.super_admin),
+        auth(USER_ROLE.customer),
         FileUploadHelper.upload.single('file'),
         (req: Request, res: Response, next: NextFunction) => {
             req.body = CustomerValidation.update.parse(

@@ -32,7 +32,11 @@ const signUp = async (user: User): Promise<User> => {
             },
         });
 
-       
+        await transactionClient.customer.create({
+            data: {
+                username: result.username,
+            },
+        });
 
         return result;
     });
