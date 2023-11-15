@@ -2,12 +2,19 @@ import { Payments } from '@prisma/client';
 import httpStatus from 'http-status';
 import Stripe from 'stripe';
 import { uuid } from 'uuidv4';
-import config from '../../../config';
+// import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
 
-const stripe_secret_key = `${config.stripe_secret_key}` as string;
-const stripe = new Stripe(stripe_secret_key);
+// const stripe_secret_key = `${config.stripe_secret_key}` as string;
+
+const stripe = new Stripe(
+    'sk_test_51OCpX2EoZ8jVom2AZhjDKzHbLSHyBf4XFjZWAf42X8QzCmTmA8xx6cBMHQhrKDKSof5L9lotLwARbkCdYNYKlVM500ZBa5GtwT',
+    {
+        apiVersion: '2022-11-15',
+    },
+);
+
 const insertIntoDB = async (data: {
     //eslint-disable-next-line @typescript-eslint/no-explicit-any
     stripeToken: any;
@@ -28,7 +35,7 @@ const insertIntoDB = async (data: {
                 throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
             }
             const params: Stripe.CustomerCreateParams = {
-                description: 'Customer for a payment',	
+                description: 'Customer for a payment',
                 source: stripeToken.id,
                 email: stripeToken.email,
             };
@@ -61,7 +68,6 @@ const insertIntoDB = async (data: {
     );
     return result;
 };
-
 
 export const PaymentService = {
     insertIntoDB,
