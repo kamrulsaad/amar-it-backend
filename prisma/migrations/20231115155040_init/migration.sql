@@ -2,7 +2,10 @@
 CREATE TYPE "USER_ROLE" AS ENUM ('super_admin', 'admin', 'customer');
 
 -- CreateEnum
-CREATE TYPE "Status" AS ENUM ('pending', 'confirmed', 'cancelled');
+CREATE TYPE "Status" AS ENUM ('pending', 'completed', 'cancelled');
+
+-- CreateEnum
+CREATE TYPE "TicketStatus" AS ENUM ('pending', 'resolved', 'closed');
 
 -- CreateEnum
 CREATE TYPE "ServiceStatus" AS ENUM ('active', 'upcoming');
@@ -21,12 +24,12 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "customers" (
     "id" TEXT NOT NULL,
-    "firstName" TEXT NOT NULL,
+    "firstName" TEXT,
     "middleName" TEXT,
-    "lastName" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "contactNo" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
+    "lastName" TEXT,
+    "email" TEXT,
+    "contactNo" TEXT,
+    "address" TEXT,
     "profileImage" TEXT,
     "username" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -62,27 +65,13 @@ CREATE TABLE "permissions" (
 );
 
 -- CreateTable
-CREATE TABLE "packages" (
-    "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "bandwidth" TEXT NOT NULL,
-    "features" TEXT[],
-    "charge" DOUBLE PRECISION NOT NULL,
-    "serviceId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "packages_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "services" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "features" TEXT[],
     "charge" DOUBLE PRECISION NOT NULL,
-    "status" "ServiceStatus" NOT NULL,
+    "status" "ServiceStatus" NOT NULL DEFAULT 'active',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -90,26 +79,14 @@ CREATE TABLE "services" (
 );
 
 -- CreateTable
-CREATE TABLE "payments" (
-    "id" TEXT NOT NULL,
-    "amount" DOUBLE PRECISION NOT NULL,
-    "reason" TEXT,
-    "status" "Status" NOT NULL,
-    "customerId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "payments_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "bookings" (
     "id" TEXT NOT NULL,
     "startTime" TEXT NOT NULL,
     "endTime" TEXT NOT NULL,
-    "status" "Status" NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+    "status" "Status" NOT NULL DEFAULT 'pending',
     "customerId" TEXT NOT NULL,
-    "packageId" TEXT NOT NULL,
+    "serviceId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -120,7 +97,7 @@ CREATE TABLE "bookings" (
 CREATE TABLE "feedbacks" (
     "id" TEXT NOT NULL,
     "customerId" TEXT NOT NULL,
-    "packageId" TEXT NOT NULL,
+    "serviceId" TEXT NOT NULL,
     "message" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -129,16 +106,16 @@ CREATE TABLE "feedbacks" (
 );
 
 -- CreateTable
-CREATE TABLE "notifications" (
+CREATE TABLE "tickets" (
     "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "message" TEXT NOT NULL,
-    "read" BOOLEAN NOT NULL DEFAULT false,
     "customerId" TEXT NOT NULL,
+    "message" TEXT NOT NULL,
+    "reply" TEXT,
+    "status" "TicketStatus" NOT NULL DEFAULT 'pending',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "notifications_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "tickets_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -206,25 +183,19 @@ ALTER TABLE "admins" ADD CONSTRAINT "admins_username_fkey" FOREIGN KEY ("usernam
 ALTER TABLE "admins" ADD CONSTRAINT "admins_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "permissions"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "packages" ADD CONSTRAINT "packages_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "payments" ADD CONSTRAINT "payments_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "bookings" ADD CONSTRAINT "bookings_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "bookings" ADD CONSTRAINT "bookings_packageId_fkey" FOREIGN KEY ("packageId") REFERENCES "packages"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "bookings" ADD CONSTRAINT "bookings_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "feedbacks" ADD CONSTRAINT "feedbacks_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "feedbacks" ADD CONSTRAINT "feedbacks_packageId_fkey" FOREIGN KEY ("packageId") REFERENCES "packages"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "feedbacks" ADD CONSTRAINT "feedbacks_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "notifications" ADD CONSTRAINT "notifications_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "tickets" ADD CONSTRAINT "tickets_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "blogs" ADD CONSTRAINT "blogs_blogCategoryId_fkey" FOREIGN KEY ("blogCategoryId") REFERENCES "blog_categories"("id") ON DELETE CASCADE ON UPDATE CASCADE;

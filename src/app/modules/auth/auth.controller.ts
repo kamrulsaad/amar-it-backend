@@ -1,20 +1,17 @@
-import { Customer } from '@prisma/client';
+import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { JwtPayload } from 'jsonwebtoken';
-import { IUploadFile } from '../../../interface/file';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { ILoginUserResponse, IRefreshTokenResponse } from './auth.interface';
 import { AuthService } from './auth.service';
 
 const signUp = catchAsync(async (req: Request, res: Response) => {
-    const { user, customer } = req.body;
+    const data = req.body;
 
-    const file = req.file as IUploadFile;
-
-    const result = await AuthService.signUp(user, customer, file);
-    sendResponse<Customer>(res, {
+    const result = await AuthService.signUp(data);
+    sendResponse<User>(res, {
         statusCode: httpStatus.CREATED,
         success: true,
         message: 'Customer signed up successfully',

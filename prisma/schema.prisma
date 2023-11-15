@@ -21,12 +21,12 @@ model User {
 
 model Customer {
   id           String     @id @default(uuid())
-  firstName    String
+  firstName    String?
   middleName   String?
-  lastName     String
-  email        String
-  contactNo    String
-  address      String
+  lastName     String?
+  email        String?
+  contactNo    String?
+  address      String?
   profileImage String?
   username     String     @unique
   user         User       @relation(fields: [username], references: [username])
@@ -67,21 +67,6 @@ model Permission {
   @@map("permissions")
 }
 
-model Package {
-  id        String     @id @default(uuid())
-  title     String
-  bandwidth String
-  features  String[]
-  charge    Float
-  serviceId String
-  service   Service    @relation(fields: [serviceId], references: [id])
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  feedbacks Feedback[]
-
-  @@map("packages")
-}
-
 model Service {
   id          String        @id @default(uuid())
   title       String
@@ -91,8 +76,8 @@ model Service {
   status      ServiceStatus @default(active)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  packages    Package[]
   bookings    Booking[]
+  Feedback    Feedback[]
 
   @@map("services")
 }
@@ -102,7 +87,7 @@ model Booking {
   startTime  String
   endTime    String
   date       DateTime
-  status     Status   @default(pending)
+  status     Status   @default(pending)  
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id])
   serviceId  String
@@ -117,8 +102,8 @@ model Feedback {
   id         String   @id @default(uuid())
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id])
-  packageId  String
-  package    Package  @relation(fields: [packageId], references: [id])
+  serviceId  String
+  service    Service  @relation(fields: [serviceId], references: [id])
   message    String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

@@ -1,11 +1,9 @@
-import { Customer, USER_ROLE, User } from '@prisma/client';
+import { USER_ROLE, User } from '@prisma/client';
 import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
-import { FileUploadHelper } from '../../../helpers/FileUploadHelper';
 import { JwtHelper } from '../../../helpers/jwtHelper';
-import { IUploadFile } from '../../../interface/file';
 import prisma from '../../../shared/prisma';
 import {
     ILoginUser,
@@ -14,11 +12,7 @@ import {
 } from './auth.interface';
 import { AuthUtils } from './auth.utils';
 
-const signUp = async (
-    user: User,
-    customer: Customer,
-    file: IUploadFile,
-): Promise<Customer> => {
+const signUp = async (user: User): Promise<User> => {
     const { password, ...rest } = user;
 
     const isUserNameExist = await AuthUtils.isUserExist(user.username);
@@ -27,41 +21,21 @@ const signUp = async (
         throw new ApiError(httpStatus.BAD_REQUEST, 'Username already exists');
     }
 
-    const result = await prisma.$transaction(
-        async transactionClient => {
-            const hashedPassword = await AuthUtils.hashPassword(password);
+    const result = await prisma.$transaction(async transactionClient => {
+        const hashedPassword = await AuthUtils.hashPassword(password);
 
-            const createdUser = await transactionClient.user.create({
-                data: {
-                    ...rest,
-                    role: USER_ROLE.customer,
-                    password: hashedPassword,
-                },
-            });
+        const result = await transactionClient.user.create({
+            data: {
+                ...rest,
+                role: USER_ROLE.customer,
+                password: hashedPassword,
+            },
+        });
 
-            const uploadedImage =
-                await FileUploadHelper.uploadToCloudinary(file);
-            if (!uploadedImage) {
-                throw new ApiError(
-                    httpStatus.BAD_REQUEST,
-                    'Image upload failed',
-                );
-            }
+       
 
-            const result = await transactionClient.customer.create({
-                data: {
-                    ...customer,
-                    username: createdUser.username,
-                    profileImage: uploadedImage.secure_url as string,
-                },
-            });
-
-            return result;
-        },
-        {
-            timeout: 10000,
-        },
-    );
+        return result;
+    });
 
     return result;
 };
