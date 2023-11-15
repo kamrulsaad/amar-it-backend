@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add --dev prisma@latest │
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js install
 
 PATH: 
   C:\Program Files\Amazon Corretto\jdk11.0.20_8\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\ProgramData\nvm;C:\Program Files\nodejs;C:\HashiCorp\Vagrant\bin;C:\ProgramData\chocolatey\lib\maven\apache-maven-3.9.4\bin;C:\Program Files\Amazon\AWSCLIV2\;C:\Program Files\Redis\;C:\Users\kamrulsaad\.console-ninja\.bin;C:\Users\kamrulsaad\AppData\Local\Microsoft\WindowsApps;C:\ProgramData\nvm;C:\Program Files\nodejs;C:\Users\kamrulsaad\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Oracle\VirtualBox;F:\Softs\stripe;C:\Users\kamrulsaad\AppData\Local\Programs\oh-my-posh\bin;C:\msys64\ucrt64\bin;
@@ -14,15 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  TypeError [ERR_UNESCAPED_CHARACTERS]: https://registry.yarnpkg.com/│: Request path contains unescaped characters
-      at new NodeError (node:internal/errors:405:5)
-      at new ClientRequest (node:_http_client:178:13)
-      at Object.request (node:https:378:10)
-      at module.exports.Request.start (C:\ProgramData\nvm\v20.6.1\node_modules\yarn\lib\cli.js:141452:32)
-      at module.exports.Request.end (C:\ProgramData\nvm\v20.6.1\node_modules\yarn\lib\cli.js:142211:10)
-      at end (C:\ProgramData\nvm\v20.6.1\node_modules\yarn\lib\cli.js:141265:14)
-      at Immediate.<anonymous> (C:\ProgramData\nvm\v20.6.1\node_modules\yarn\lib\cli.js:141279:7)
-      at process.processImmediate (node:internal/timers:478:21)
+  Error: EPERM: operation not permitted, unlink 'D:\Web Development\Level 2\Showcase Projects\amar-it\backend\node_modules\prisma\engines\aebc046ce8b88ebbcb45efe31cbe7d06fd6abc0a\query_engine-windows.dll.node'
 
 npm manifest: 
   {
@@ -76,7 +68,9 @@ npm manifest:
           "jsonwebtoken": "^9.0.2",
           "multer": "^1.4.5-lts.1",
           "multer-storage-cloudinary": "^4.0.0",
-          "prisma": "^5.4.2",
+          "prisma": "^5.5.2",
+          "stripe": "^14.4.0",
+          "uuidv4": "^6.2.13",
           "winston": "^3.11.0",
           "zod": "^3.22.4"
       }
@@ -238,10 +232,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-5.4.1-2.ac9d7041ed77bcc8a8dbd2ab6616b39013829574.tgz#ff14f2926890edee47e8f1d08df7b4f392ee34bf"
     integrity sha512-wvupDL4AA1vf4TQNANg7kR7y98ITqPsk6aacfBxZKtrJKRIsWjURHkZCGcQliHdqCiW/hGreO6d6ZuSv9MhdAA==
   
-  "@prisma/engines@5.4.2":
-    version "5.4.2"
-    resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-5.4.2.tgz#ba2b7faeb227c76e423e88f962afe6a031319f3f"
-    integrity sha512-fqeucJ3LH0e1eyFdT0zRx+oETLancu5+n4lhiYECyEz6H2RDskPJHJYHkVc0LhkU4Uv7fuEnppKU3nVKNzMh8g==
+  "@prisma/engines@5.5.2":
+    version "5.5.2"
+    resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-5.5.2.tgz#fe0d2361a48c7d59568ccf0d35c75432594e1ac1"
+    integrity sha512-Be5hoNF8k+lkB3uEMiCHbhbfF6aj1GnrTBnn5iYFT7GEr3TsOEp1soviEcBR0tYCgHbxjcIxJMhdbvxALJhAqg==
   
   "@tsconfig/node10@^1.0.7":
     version "1.0.9"
@@ -360,6 +354,13 @@ Lockfile:
     dependencies:
       undici-types "~5.25.1"
   
+  "@types/node@>=8.1.0":
+    version "20.9.0"
+    resolved "https://registry.yarnpkg.com/@types/node/-/node-20.9.0.tgz#bfcdc230583aeb891cf51e73cfdaacdd8deae298"
+    integrity sha512-nekiGu2NDb1BcVofVcEKMIwzlx4NjHlcjhoxxKBNLtz15Y1z7MYf549DFvkHSId02Ax6kGwWntIBPC3l/JZcmw==
+    dependencies:
+      undici-types "~5.26.4"
+  
   "@types/qs@*":
     version "6.9.8"
     resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.8.tgz#f2a7de3c107b89b441e071d5472e6b726b4adf45"
@@ -406,6 +407,11 @@ Lockfile:
     version "1.3.3"
     resolved "https://registry.yarnpkg.com/@types/triple-beam/-/triple-beam-1.3.3.tgz#726ae98a5f6418c8f24f9b0f2a9f81a8664876ae"
     integrity sha512-6tOUG+nVHn0cJbVp25JFayS5UE6+xlbcNF9Lo9mU7U0zk3zeUShZied4YEQZjy1JBF043FSkdXw8YkUJuVtB5g==
+  
+  "@types/uuid@8.3.4":
+    version "8.3.4"
+    resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
+    integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
   
   "@typescript-eslint/eslint-plugin@^6.7.5":
     version "6.7.5"
@@ -2094,12 +2100,12 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.0.3.tgz#432a51f7ba422d1469096c0fdc28e235db8f9643"
     integrity sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==
   
-  prisma@^5.4.2:
-    version "5.4.2"
-    resolved "https://registry.yarnpkg.com/prisma/-/prisma-5.4.2.tgz#7eac9276439ec7073ec697c6c0dfa259d96e955e"
-    integrity sha512-GDMZwZy7mysB2oXU+angQqJ90iaPFdD0rHaZNkn+dio5NRkGLmMqmXs31//tg/qXT3iB0cTQwnGGQNuirhSTZg==
+  prisma@^5.5.2:
+    version "5.5.2"
+    resolved "https://registry.yarnpkg.com/prisma/-/prisma-5.5.2.tgz#54ad2f04f0dd4174f27128e4447013e8d75c4d69"
+    integrity sha512-WQtG6fevOL053yoPl6dbHV+IWgKo25IRN4/pwAGqcWmg7CrtoCzvbDbN9fXUc7QS2KK0LimHIqLsaCOX/vHl8w==
     dependencies:
-      "@prisma/engines" "5.4.2"
+      "@prisma/engines" "5.5.2"
   
   process-nextick-args@~2.0.0:
     version "2.0.1"
@@ -2128,6 +2134,13 @@ Lockfile:
     version "6.11.0"
     resolved "https://registry.yarnpkg.com/qs/-/qs-6.11.0.tgz#fd0d963446f7a65e1367e01abd85429453f0c37a"
     integrity sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==
+    dependencies:
+      side-channel "^1.0.4"
+  
+  qs@^6.11.0:
+    version "6.11.2"
+    resolved "https://registry.yarnpkg.com/qs/-/qs-6.11.2.tgz#64bea51f12c1f5da1bc01496f48ffcff7c69d7d9"
+    integrity sha512-tDNIz22aBzCDxLtVH++VnTfzxlfeK5CbqohpSqpJgj1Wg/cQbStNAz3NuqCs5vV+pjBsK4x4pN9HlVh7rcYRiA==
     dependencies:
       side-channel "^1.0.4"
   
@@ -2449,6 +2462,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
     integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
   
+  stripe@^14.4.0:
+    version "14.4.0"
+    resolved "https://registry.yarnpkg.com/stripe/-/stripe-14.4.0.tgz#f291fa1dc8d956d6f897bd8e9d01f40711c0f3b8"
+    integrity sha512-E3IxDo/Bvu0TtYrKfAf8lEYd0beTjFSN4xemuw2oEfUyxFpJyrzRZOw50HIEXFYYHWNDORicd8G8R4joCbN3/Q==
+    dependencies:
+      "@types/node" ">=8.1.0"
+      qs "^6.11.0"
+  
   supports-color@^7.1.0:
     version "7.2.0"
     resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-7.2.0.tgz#1b7dcdcb32b8138801b3e478ba6a51caa89648da"
@@ -2600,6 +2621,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.25.3.tgz#e044115914c85f0bcbb229f346ab739f064998c3"
     integrity sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==
   
+  undici-types@~5.26.4:
+    version "5.26.5"
+    resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
+    integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
+  
   unpipe@1.0.0, unpipe@~1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
@@ -2621,6 +2647,19 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
     integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+  
+  uuid@8.3.2:
+    version "8.3.2"
+    resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+    integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+  
+  uuidv4@^6.2.13:
+    version "6.2.13"
+    resolved "https://registry.yarnpkg.com/uuidv4/-/uuidv4-6.2.13.tgz#8f95ec5ef22d1f92c8e5d4c70b735d1c89572cb7"
+    integrity sha512-AXyzMjazYB3ovL3q051VLH06Ixj//Knx7QnUSi1T//Ie3io6CpsPu9nVMOx5MoLWh6xV0B9J0hIaxungxXUbPQ==
+    dependencies:
+      "@types/uuid" "8.3.4"
+      uuid "8.3.2"
   
   v8-compile-cache-lib@^3.0.1:
     version "3.0.1"
