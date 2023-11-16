@@ -148,14 +148,19 @@ const updateInDB = async (
 ): Promise<Booking | null> => {
     const { date, ...data } = payload;
 
+    const updatedBookingData: Partial<Booking> = { ...data };
+
+    if (date) {
+        updatedBookingData.date = convertToIsoDate(
+            date as unknown as string,
+        ) as unknown as Date;
+    }
+
     const result = await prisma.booking.update({
         where: {
             id,
         },
-        data: {
-            date: convertToIsoDate(date as unknown as string),
-            ...data,
-        },
+        data: updatedBookingData,
     });
     return result;
 };

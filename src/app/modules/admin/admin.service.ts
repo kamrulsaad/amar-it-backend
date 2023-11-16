@@ -109,11 +109,6 @@ const updateOneInDB = async (
         if (newImageURL) {
             data.profileImage = newImageURL.secure_url as string;
         }
-    } else if (file && !isAdminExist.profileImage) {
-        const newImageURL = await FileUploadHelper.uploadToCloudinary(file);
-        if (newImageURL) {
-            data.profileImage = newImageURL.secure_url as string;
-        }
     }
 
     const result = await prisma.admin.update({
