@@ -70,7 +70,7 @@ const login = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
         );
     }
 
-    const accessToken = await JwtHelper.createToken(
+    const accessToken = JwtHelper.createToken(
         { username, role },
         config.jwt.secret as Secret,
         config.jwt.expires_in as string,

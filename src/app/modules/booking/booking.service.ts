@@ -146,11 +146,16 @@ const updateInDB = async (
     id: string,
     payload: Booking,
 ): Promise<Booking | null> => {
+    const { date, ...data } = payload;
+
     const result = await prisma.booking.update({
         where: {
             id,
         },
-        data: payload,
+        data: {
+            date: convertToIsoDate(date as unknown as string),
+            ...data,
+        },
     });
     return result;
 };

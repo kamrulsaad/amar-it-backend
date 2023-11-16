@@ -8,11 +8,9 @@ import { CustomerRoutes } from '../modules/customer/customer.routes';
 import { FaqRoute } from '../modules/faq/faq.routes';
 import { FeedbackRoute } from '../modules/feedback/feedback.routes';
 import { HomeBannerContentsRoute } from '../modules/home-banner/home-banner.routes';
-import { PackageRoutes } from '../modules/package/package.routes';
 import { PermissionRoutes } from '../modules/permission/permission.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 import { ServiceRoutes } from '../modules/service/service.routes';
-import { PaymentRoutes } from '../modules/payment/payment.routes';
 
 const router = express.Router();
 
@@ -50,10 +48,6 @@ const moduleroutes = [
         route: CustomerRoutes,
     },
     {
-        path: '/packages',
-        route: PackageRoutes,
-    },
-    {
         path: '/home-banner',
         route: HomeBannerContentsRoute,
     },
@@ -68,10 +62,6 @@ const moduleroutes = [
     {
         path: '/services',
         route: ServiceRoutes,
-    },
-    {
-        path: '/payment',
-        route: PaymentRoutes,
     },
 ];
 
