@@ -9,11 +9,7 @@ const router = express.Router({
     mergeParams: true,
 });
 
-router.post(
-    '/',
-    auth(USER_ROLE.customer),
-    FeedbacController.insertIntoDB,
-);
+router.post('/', auth(USER_ROLE.customer), FeedbacController.insertIntoDB);
 
 router.get('/', FeedbacController.getAllFromDB);
 router
@@ -24,9 +20,6 @@ router
         auth(USER_ROLE.customer),
         FeedbacController.updateIntoDB,
     )
-    .delete(
-        auth(USER_ROLE.super_admin),
-        FeedbacController.deleteFromDB,
-    );
+    .delete(auth(USER_ROLE.super_admin), FeedbacController.deleteFromDB);
 
 export const FeedbackRoute = router;
