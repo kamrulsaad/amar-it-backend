@@ -5,11 +5,6 @@ import { PaymentController } from './payment.controller';
 
 const router = express.Router();
 
-router.post(
-    '/',
-    auth(USER_ROLE.customer),
-    PaymentController.insertIntoDB,
-);
-
+router.post('/', auth(USER_ROLE.customer), PaymentController.insertIntoDB);
 
 export const PaymentRoutes = router;
