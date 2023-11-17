@@ -10,6 +10,7 @@ import { HomeBannerContentsRoute } from '../modules/home-banner/home-banner.rout
 import { PermissionRoutes } from '../modules/permission/permission.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 import { ServiceRoutes } from '../modules/service/service.routes';
+import { PaymentRoutes } from '../modules/payment/payment.routes';
 
 const router = express.Router();
 
@@ -57,6 +58,10 @@ const moduleroutes = [
     {
         path: '/services',
         route: ServiceRoutes,
+    },
+    {
+        path: '/payment',
+        route: PaymentRoutes,
     },
 ];
 
