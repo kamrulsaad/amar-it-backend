@@ -50,8 +50,7 @@
         "multer": "^1.4.5-lts.1",
         "multer-storage-cloudinary": "^4.0.0",
         "prisma": "^5.5.2",
-        "stripe": "^11.7.0",
-        "uuidv4": "^6.2.13",
+        "stripe": "^14.5.0",
         "winston": "^3.11.0",
         "zod": "^3.22.4"
     }
