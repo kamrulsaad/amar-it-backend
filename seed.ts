@@ -125,13 +125,200 @@ const data = [
     },
 ];
 
+const homeBannerData = [
+    {
+        title: 'High-Speed Internet Plans',
+        content:
+            'Explore our high-speed internet plans with lightning-fast download and upload speeds. Stream, game, and work from home without buffering or interruptions. Choose the plan that suits your needs and enjoy a seamless online experience.',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1698990488/culqmd4m0wel0yiag1h8.png',
+    },
+    {
+        title: '24/7 Customer Support',
+        content:
+            "Our dedicated customer support team is available 24/7 to assist you with any internet-related issues. We're here to help with troubleshooting, billing inquiries, and technical support. Your satisfaction is our top priority.",
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1698990522/cm4lkehbw2kaxyvsofqf.png',
+    },
+    {
+        title: 'Fiber Optic Network',
+        content:
+            "Experience the power of our advanced fiber optic network. With fiber internet, you'll enjoy unparalleled reliability and blazing-fast speeds. Say goodbye to slow connections and hello to a world of possibilities.",
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1698990556/jsayid9wiafgzr8ibx3b.png',
+    },
+    {
+        title: 'Secure and Reliable Connectivity',
+        content:
+            'We prioritize the security and reliability of your internet connection. Our network is designed to keep your data safe, and we offer features like firewall protection and antivirus software. Trust us for a worry-free online experience.',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1698990587/iaz8pxgeui0ghinieei8.png',
+    },
+    {
+        title: 'Affordable Internet Packages',
+        content:
+            "Discover affordable internet packages that fit any budget. Whether you're a student, a family, or a small business owner, we have plans that provide great value without breaking the bank. Stay connected without overspending.",
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1698990679/yxn41u9p2bineh0hy4g8.png',
+    },
+];
+
+const faqData = [
+    {
+        question: 'What types of internet plans do you offer?',
+        answer: 'We offer a variety of plans to suit different needs, including high-speed broadband, fiber-optic, and wireless options. You can choose a plan based on your usage requirements and budget.',
+    },
+    {
+        question:
+            'How do I check the availability of your internet service in my area?',
+        answer: 'You can check the availability of our internet service in your area by visiting our website or contacting our customer service. We provide a coverage map and can assist you in finding the best available options for your location.',
+    },
+    {
+        question: 'What equipment is provided with the internet service?',
+        answer: 'We provide a modem or router with our internet service. The type of equipment may vary based on the plan you choose. Our customer support can guide you on the setup process and any additional equipment you might need.',
+    },
+    {
+        question: 'What is the process for troubleshooting internet issues?',
+        answer: 'If you experience internet issues, our customer support team is available 24/7 to assist you. You can contact us via phone or online chat, and we will guide you through troubleshooting steps or schedule a technician to resolve the issue promptly.',
+    },
+    {
+        question: 'Is there a data usage limit on your internet plans?',
+        answer: 'Some of our plans may have data usage limits, while others offer unlimited data. The specifics depend on the plan you choose. You can find information about data limits in the plan details on our website or by contacting our customer service.',
+    },
+    {
+        question:
+            'What security measures are in place to protect my internet connection?',
+        answer: 'We prioritize the security of your internet connection. Our services include built-in security features such as firewalls and encryption. Additionally, we recommend best practices for securing your home network, and our customer support can provide guidance on enhancing your online security.',
+    },
+    {
+        question: 'Can I upgrade or downgrade my internet plan at any time?',
+        answer: 'Yes, you can upgrade or downgrade your internet plan at any time. Simply contact our customer service, and we will assist you in adjusting your plan based on your current needs and preferences. Changes to your plan may be subject to specific terms and conditions.',
+    },
+];
+
+const blogCategoryData = [
+    {
+        title: 'Broadband Technology',
+    },
+    {
+        title: 'Customer Support and Troubleshooting',
+    },
+    {
+        title: 'Internet Security Tips',
+    },
+];
+
+const blogData = [
+    {
+        title: 'The Evolution of Broadband Technology: A Glimpse into High-Speed Connectivity',
+        content:
+            "Broadband technology has undergone remarkable transformations over the years, revolutionizing how we connect to the internet. From the early days of dial-up to today's lightning-fast fiber-optic networks, this blog explores the fascinating journey of broadband technology.",
+        blogCategoryId: 'b7e1b0b7-1a7d-409c-8597-044c107a6ca5',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Troubleshooting Tips: Navigating Common Internet Issues with Ease',
+        content:
+            'Customer support is at the core of our mission. In this blog, we delve into effective troubleshooting tips to help you overcome common internet issues swiftly. Discover the tools and techniques that empower you to enjoy a seamless online experience.',
+        blogCategoryId: '0dcb6c3b-66b6-4a28-8f0b-1732540f6469',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Securing Your Connection: Practical Internet Security Tips for a Safe Online Experience',
+        content:
+            'In an era of increased online threats, prioritizing internet security is paramount. This blog provides actionable tips and best practices to safeguard your digital life. Stay one step ahead of cyber threats with our comprehensive guide.',
+        blogCategoryId: '941adace-950b-4c54-a1ab-f7067e2f3854',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Optimizing Broadband Speed: Unleashing the Full Potential of Your Internet Connection',
+        content:
+            'Unlock the secrets to maximize your broadband speed. From optimizing router settings to understanding bandwidth allocation, this blog provides practical tips to ensure you get the most out of your high-speed internet connection.',
+        blogCategoryId: 'b7e1b0b7-1a7d-409c-8597-044c107a6ca5',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Empowering Customer Support: A Behind-the-Scenes Look at Resolving Internet Challenges',
+        content:
+            'Delve into the world of customer support and troubleshooting as we share insights into the strategies and tools our dedicated team employs to address your internet challenges. Learn how we are committed to delivering exceptional service.',
+        blogCategoryId: '0dcb6c3b-66b6-4a28-8f0b-1732540f6469',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Guardians of the Gateway: A Comprehensive Guide to Internet Security Measures',
+        content:
+            'Embark on a journey to fortify your online defenses. This blog covers the latest internet security measures, including firewalls, antivirus software, and safe browsing practices. Strengthen your digital armor and protect your online world.',
+        blogCategoryId: '941adace-950b-4c54-a1ab-f7067e2f3854',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Fiber-Optic Marvels: Revolutionizing Broadband Technology for the Future',
+        content:
+            'Explore the cutting-edge world of fiber-optic technology and its role in shaping the future of high-speed internet. Learn about the unparalleled speed and reliability that fiber-optic broadband brings to your digital doorstep.',
+        blogCategoryId: 'b7e1b0b7-1a7d-409c-8597-044c107a6ca5',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: '24/7 Support: Your Lifeline to Uninterrupted Internet Connectivity',
+        content:
+            'Discover the world-class customer support services that ensure your internet connection remains seamless. This blog sheds light on the dedication and expertise of our support team, available round-the-clock to assist you.',
+        blogCategoryId: '0dcb6c3b-66b6-4a28-8f0b-1732540f6469',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Safeguarding Your Digital Sanctuary: Internet Security Beyond the Basics',
+        content:
+            'Take a deep dive into advanced internet security practices to fortify your digital sanctuary. From multi-factor authentication to secure VPNs, this blog explores additional layers of protection for a worry-free online experience.',
+        blogCategoryId: '941adace-950b-4c54-a1ab-f7067e2f3854',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Exploring Broadband Innovations: The Rise of Gigabit Internet',
+        content:
+            'Dive into the world of gigabit internet and witness the latest innovations in broadband technology. Discover how gigabit speeds are reshaping the digital landscape, providing unprecedented connectivity for homes and businesses.',
+        blogCategoryId: 'b7e1b0b7-1a7d-409c-8597-044c107a6ca5',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Troubleshooting Demystified: A Guide to Resolving Common Internet Hiccups',
+        content:
+            'Unravel the mysteries of internet troubleshooting with this comprehensive guide. From slow connections to connectivity drops, learn the step-by-step process to identify and resolve common internet hiccups with ease.',
+        blogCategoryId: '0dcb6c3b-66b6-4a28-8f0b-1732540f6469',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+    {
+        title: 'Cyber Hygiene 101: Best Practices for a Secure Online Experience',
+        content:
+            'Elevate your cyber hygiene with essential best practices for a secure online experience. This blog covers password management, software updates, and proactive measures to safeguard your digital presence from potential threats.',
+        blogCategoryId: '941adace-950b-4c54-a1ab-f7067e2f3854',
+        image: 'https://res.cloudinary.com/djri0huwq/image/upload/v1700176674/hzqhpyvjp2kzhk9onarx.jpg',
+    },
+];
+
 async function main() {
     try {
-        await prisma.service.createMany({
+        // await prisma.service.createMany({
+        //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //     // @ts-ignore
+        //     data: data,
+        // });
+        // await prisma.homeBannerContents.createMany({
+        //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //     // @ts-ignore
+        //     data: homeBannerData,
+        // });
+        // await prisma.fAQ.createMany({
+        //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //     // @ts-ignore
+        //     data: faqData,
+        // });
+        // await prisma.blogCategory.createMany({
+        //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //     // @ts-ignore
+        //     data: blogCategoryData,
+        // });
+        await prisma.blog.createMany({
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            data: data,
+            data: blogData,
         });
+        // const data = await prisma.service.findMany();
+        // console.log(data);
         console.log('Success');
     } catch (error) {
         console.error(error);
@@ -140,3 +327,8 @@ async function main() {
 }
 
 main();
+
+/**
+ *
+ *
+ */

@@ -6,9 +6,7 @@ import { BlogsRoute } from '../modules/blogs/blogs.routes';
 import { BookingRoutes } from '../modules/booking/booking.routes';
 import { CustomerRoutes } from '../modules/customer/customer.routes';
 import { FaqRoute } from '../modules/faq/faq.routes';
-import { FeedbackRoute } from '../modules/feedback/feedback.routes';
 import { HomeBannerContentsRoute } from '../modules/home-banner/home-banner.routes';
-import { PackageRoutes } from '../modules/package/package.routes';
 import { PermissionRoutes } from '../modules/permission/permission.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 import { ServiceRoutes } from '../modules/service/service.routes';
@@ -50,20 +48,12 @@ const moduleroutes = [
         route: CustomerRoutes,
     },
     {
-        path: '/packages',
-        route: PackageRoutes,
-    },
-    {
         path: '/home-banner',
         route: HomeBannerContentsRoute,
     },
     {
         path: '/booking',
         route: BookingRoutes,
-    },
-    {
-        path: '/feedback',
-        route: FeedbackRoute,
     },
     {
         path: '/services',

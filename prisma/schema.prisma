@@ -35,7 +35,6 @@ model Customer {
   bookings     Booking[]
   feedbacks    Feedback[]
   Ticket       Ticket[]
-  Payments     Payments[]
 
   @@map("customers")
 }
@@ -167,19 +166,6 @@ model FAQ {
   updatedAt DateTime @updatedAt
 
   @@map("faqs")
-}
-
-model Payments {
-  id         String   @id @default(uuid())
-  customerId String
-  paymentID  String
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  isPaid     Boolean
-  totalPrice Float
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@map("payments")
 }
 
 enum USER_ROLE {

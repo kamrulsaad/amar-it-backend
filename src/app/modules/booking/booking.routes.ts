@@ -13,16 +13,12 @@ router.post(
     BookingController.insertIntoDB,
 );
 
-router.get(
-    '/',
-    BookingController.getAllFromDB,
-);
+router.get('/', BookingController.getAllFromDB);
 
 router
     .route('/:id')
     .get(BookingController.getSingleFromDB)
     .patch(
-        auth(USER_ROLE.admin, USER_ROLE.super_admin),
         validateRequest(BookingValidation.update),
         BookingController.updateInDB,
     )

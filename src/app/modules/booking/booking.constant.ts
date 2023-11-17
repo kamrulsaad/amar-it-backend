@@ -6,8 +6,4 @@ export const bookingFilterableFields = [
     'username',
 ];
 
-export const bookingSearchableFields = [
-    'startTime',
-    'endTime',
-    'packageId',
-];
+export const bookingSearchableFields = ['startTime', 'endTime', 'status'];

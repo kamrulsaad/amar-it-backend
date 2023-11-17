@@ -7,6 +7,7 @@ const update = z.object({
     email: z.string().email().optional(),
     contactNo: z.string().optional(),
     address: z.string().optional(),
+    permissionId: z.string().optional(),
 });
 
 export const AdminValidation = {

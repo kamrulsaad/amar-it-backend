@@ -23,24 +23,23 @@ const login = catchAsync(async (req: Request, res: Response) => {
     const { ...loginData } = req.body;
 
     const result = await AuthService.login(loginData);
-    const { refreshToken, ...others } = result;
 
-    // set refresh token into cookie
-    const cookieOptions: {
-        secure: boolean;
-        httpOnly: boolean;
-        sameSite?: 'none' | undefined;
-    } = {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'none',
-    };
-    res.cookie('refreshToken', refreshToken, cookieOptions);
+    //! set refresh token into cookie
+    // const cookieOptions: {
+    //     secure: boolean;
+    //     httpOnly: boolean;
+    //     sameSite?: 'none' | undefined;
+    // } = {
+    //     secure: true,
+    //     httpOnly: true,
+    //     sameSite: 'none',
+    // };
+    // res.cookie('refreshToken', refreshToken, cookieOptions);
 
     sendResponse<Partial<ILoginUserResponse>>(res, {
         statusCode: httpStatus.OK,
         message: 'User logged in successfully',
-        data: others,
+        data: { accessToken: result.accessToken },
         success: true,
     });
 });
@@ -50,7 +49,6 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 
     const result = await AuthService.refreshToken(refreshToken);
 
-    // set refresh token into cookie
     const cookieOptions: {
         secure: boolean;
         httpOnly: boolean;
@@ -66,31 +64,6 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
         statusCode: httpStatus.OK,
         success: true,
         message: 'User logged in successfully!',
-        data: result,
-    });
-});
-
-const logout = catchAsync(async (req: Request, res: Response) => {
-    const { username } = req.user as { username: string };
-    const result = await AuthService.logout(username);
-
-    const cookieOptions: {
-        secure: boolean;
-        httpOnly: boolean;
-        sameSite?: 'none' | undefined;
-    } = {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'none',
-    };
-
-    // Remove the refreshToken cookie from the response
-    res.clearCookie('refreshToken', cookieOptions);
-
-    sendResponse<IRefreshTokenResponse>(res, {
-        statusCode: httpStatus.OK,
-        success: true,
-        message: 'User logged out successfully!',
         data: result,
     });
 });
@@ -115,6 +88,5 @@ export const AuthController = {
     signUp,
     login,
     refreshToken,
-    logout,
     resetPassword,
 };
