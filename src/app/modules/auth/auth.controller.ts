@@ -24,17 +24,16 @@ const login = catchAsync(async (req: Request, res: Response) => {
 
     const result = await AuthService.login(loginData);
 
-    //! set refresh token into cookie
-    // const cookieOptions: {
-    //     secure: boolean;
-    //     httpOnly: boolean;
-    //     sameSite?: 'none' | undefined;
-    // } = {
-    //     secure: true,
-    //     httpOnly: true,
-    //     sameSite: 'none',
-    // };
-    // res.cookie('refreshToken', refreshToken, cookieOptions);
+    const cookieOptions: {
+        secure: boolean;
+        httpOnly: boolean;
+        sameSite?: 'none' | undefined;
+    } = {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'none',
+    };
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     sendResponse<Partial<ILoginUserResponse>>(res, {
         statusCode: httpStatus.OK,
