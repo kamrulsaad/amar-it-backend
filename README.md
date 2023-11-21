@@ -6,13 +6,12 @@
 
 A modern full-stack web application based on `Nextjs 13.5.5` and `TypeScript` with `JWT` authentication and `Stripe` payment processing.
 
-This backend heavy application follows the modern modular pattern. Robust linting and formatting rules are followed to ensure code quality. The backend is built with `Express` and `Prisma` ORM. The frontend is built with `Nextjs` and `React`. The database is `PostgreSQL`. `Cloudinary` is used for image hosting. `Stripe` is used for payment processing. `Winston` is used for logging. `Zod` is used for schema validation. `Husky` and `Lint Staged` are used for git hooks. `Prettier` and `ESLint` are used for code formatting and linting respectively.
+This backend-heavy application follows the modern modular pattern. Robust linting and formatting rules are followed to ensure code quality. The backend is built with `Express` and `Prisma` ORM. The frontend is built with `Nextjs` and `React`. The database is `PostgreSQL`. `Cloudinary` is used for image hosting. `Stripe` is used for payment processing. `Winston` is used for logging. `Zod` is used for schema validation. `Husky` and `Lint Staged` are used for git hooks. `Prettier` and `ESLint` are used for code formatting and linting respectively.
 
 ## Table of Contents
 
 -   [Overview](#overview)
 -   [Links](#links)
--   [Screenshot](#preview)
 -   [Features](#features)
 -   [Future Improvements](#future-improvements)
 -   [Built with](#built-with)
@@ -38,9 +37,6 @@ This backend heavy application follows the modern modular pattern. Robust lintin
     -   Username: `customer1`
     -   Password: `123456`
 
-## Preview
-
-![Homepage](./assets/ss/1.png)
 
 ---
 
