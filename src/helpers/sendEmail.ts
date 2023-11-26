@@ -21,9 +21,9 @@ const sendEmailTo = async (message: ContactMessage) => {
     });
 
     await transporter.sendMail({
-        from: `${config.email_send.app_name}-ISP`,
-        to: `${message.email}`,
-        subject: `New Contact Message - ${message.subject}`,
+        from: `${message.email}`,
+        to: config.email_send.auth.user,
+        subject: `New Contact Message - ${config.email_send.app_name}`,
         html: `
       <div style="width: 100%; height: auto; padding: 15px 10px; text-align: left;">
         <h1 style="font-size: 25px;">New Contact Message</h1>
