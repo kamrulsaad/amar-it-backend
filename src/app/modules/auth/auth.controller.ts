@@ -48,17 +48,6 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 
     const result = await AuthService.refreshToken(refreshToken);
 
-    const cookieOptions: {
-        secure: boolean;
-        httpOnly: boolean;
-        sameSite?: 'none' | undefined;
-    } = {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'none',
-    };
-    res.cookie('refreshToken', refreshToken, cookieOptions);
-
     sendResponse<IRefreshTokenResponse>(res, {
         statusCode: httpStatus.OK,
         success: true,
